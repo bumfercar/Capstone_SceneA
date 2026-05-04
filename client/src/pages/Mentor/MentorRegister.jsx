@@ -1,0 +1,538 @@
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+/* ============================================================
+   멘토 정보 등록  (pages/mentor/InfoRegister.jsx)
+   4단계: ① 직무·경력  ② 면접 강점  ③ 정원·일정 설정  ④ 최종 확인
+   ============================================================ */
+
+const C = {
+  navy:    "#0D2244", navyMid:"#1A3660",
+  cream:   "#F2F0EB", creamDark:"#E8E5DE",
+  white:   "#FFFFFF", teal:"#1D9E75",
+  text:    "#1A1818", textSub:"#6B6863",
+  textMuted:"#9E9B95", border:"#E2DED8",
+  bg:      "#F0EEE9", error:"#D94040",
+};
+
+const DAYS = ["MON","TUE","WED","THU","FRI","SAT","SUN"];
+const TIMES = ["09:00","10:00","11:00","14:00","15:00","16:00","19:00","20:00","21:00"];
+
+/* ── 로고 ── */
+const LogoIcon = ({ size=26, color=C.white }) => (
+  <svg width={size} height={size} viewBox="0 0 28 28" fill="none">
+    <circle cx="14" cy="14" r="2" fill={color}/>
+    {[0,45,90,135,180,225,270,315].map((deg,i)=>{
+      const r=deg*Math.PI/180;
+      return <line key={i} x1={14+2.5*Math.cos(r)} y1={14+2.5*Math.sin(r)} x2={14+10*Math.cos(r)} y2={14+10*Math.sin(r)} stroke={color} strokeWidth="1.5" strokeLinecap="round"/>;
+    })}
+    {[0,90,180,270].map((deg,i)=>{
+      const r=deg*Math.PI/180,mx=14+7*Math.cos(r),my=14+7*Math.sin(r),o=r+Math.PI/2;
+      return <g key={i}><line x1={mx} y1={my} x2={mx+3*Math.cos(o)} y2={my+3*Math.sin(o)} stroke={color} strokeWidth="1.2" strokeLinecap="round"/><line x1={mx} y1={my} x2={mx-3*Math.cos(o)} y2={my-3*Math.sin(o)} stroke={color} strokeWidth="1.2" strokeLinecap="round"/></g>;
+    })}
+  </svg>
+);
+
+/* ── 헤더 ── */
+const Header = ({ userName="박지훈" }) => (
+  <header style={{ background:C.navy, padding:"0 5%", position:"sticky", top:0, zIndex:100 }}>
+    <nav style={{ maxWidth:1200, margin:"0 auto", display:"flex", alignItems:"center", justifyContent:"space-between", height:64 }}>
+      <span style={{ fontSize:15, fontWeight:600, color:C.white }}>
+        안녕하세요 <span style={{ color:"rgba(255,255,255,0.75)" }}>{userName}</span>님
+      </span>
+      <Link to="/" style={{ textDecoration:"none" }}><LogoIcon size={28}/></Link>
+      <div style={{ display:"flex", gap:32 }}>
+        {["멘토 탐색","예약 확인","MyPage"].map((l,i)=>(
+          <Link key={i} to="#" style={{ fontSize:14, fontWeight:l==="MyPage"?700:400, color:C.white, textDecoration:"none", opacity:0.85 }}
+            onMouseEnter={e=>e.target.style.opacity=1} onMouseLeave={e=>e.target.style.opacity=0.85}>{l}</Link>
+        ))}
+      </div>
+    </nav>
+  </header>
+);
+
+/* ── 사이드바 단계 ── */
+const Sidebar = ({ current }) => {
+  const steps = [
+    { n:1, title:"직무·경력",   sub:"기본 프로필 설정" },
+    { n:2, title:"면접 강점",   sub:"유형·자기소개" },
+    { n:3, title:"정원·일정 설정", sub:"최대 인원 및 가능 시간" },
+    { n:4, title:"최종 확인",   sub:"등록 완료" },
+  ];
+  return (
+    <aside style={{ width:200, flexShrink:0 }}>
+      <p style={{ fontSize:12, color:C.textMuted, marginBottom:20, letterSpacing:"0.05em" }}>등록 단계</p>
+      <div style={{ display:"flex", flexDirection:"column", gap:20 }}>
+        {steps.map(s => {
+          const done   = s.n < current;
+          const active = s.n === current;
+          return (
+            <div key={s.n} style={{ display:"flex", alignItems:"flex-start", gap:12 }}>
+              <div style={{
+                width:28, height:28, borderRadius:"50%", flexShrink:0,
+                background: done ? C.navy : active ? C.navy : C.creamDark,
+                display:"flex", alignItems:"center", justifyContent:"center",
+                transition:"background 0.2s",
+              }}>
+                {done
+                  ? <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5L5 9l5.5-5.5" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  : <span style={{ fontSize:11, fontWeight:700, color: active ? C.white : C.textMuted }}>{s.n}</span>
+                }
+              </div>
+              <div>
+                <p style={{ fontSize:13, fontWeight: active?700:400, color: (done||active) ? C.text : C.textMuted }}>{s.title}</p>
+                <p style={{ fontSize:11, color:C.textMuted, marginTop:1 }}>{s.sub}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </aside>
+  );
+};
+
+/* ── 공통 인풋 ── */
+const Input = ({ label, hint, placeholder, value, onChange, type="text", multiline, rows=3 }) => {
+  const [focused, setFocused] = useState(false);
+  const base = {
+    width:"100%", padding:"12px 14px",
+    background: focused ? C.white : C.creamDark,
+    border:`1.5px solid ${focused ? C.navy : "transparent"}`,
+    borderRadius:8, fontSize:14, color:C.text,
+    outline:"none", fontFamily:"inherit",
+    transition:"border-color 0.18s, background 0.18s",
+  };
+  return (
+    <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
+      {label && <label style={{ fontSize:13, fontWeight:600, color:C.text }}>{label}</label>}
+      {hint  && <p style={{ fontSize:11, color:C.textMuted, marginTop:-3 }}>{hint}</p>}
+      {multiline
+        ? <textarea rows={rows} placeholder={placeholder} value={value} onChange={onChange}
+            onFocus={()=>setFocused(true)} onBlur={()=>setFocused(false)}
+            style={{ ...base, resize:"vertical", lineHeight:1.7 }}/>
+        : <input type={type} placeholder={placeholder} value={value} onChange={onChange}
+            onFocus={()=>setFocused(true)} onBlur={()=>setFocused(false)} style={base}/>
+      }
+    </div>
+  );
+};
+
+/* ── 태그 입력 ── */
+const TagInput = ({ label, tags, onAdd, onRemove, placeholder }) => {
+  const [val, setVal] = useState("");
+  const [focused, setFocused] = useState(false);
+  const add = () => { const t = val.trim(); if(t && !tags.includes(t)) { onAdd(t); setVal(""); } };
+  return (
+    <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
+      {label && <label style={{ fontSize:13, fontWeight:600, color:C.text }}>{label}</label>}
+      <div style={{ display:"flex", flexWrap:"wrap", gap:6, marginBottom:4 }}>
+        {tags.map((t,i) => (
+          <span key={i} style={{
+            display:"inline-flex", alignItems:"center", gap:5,
+            background:C.navy, color:C.white,
+            fontSize:12, padding:"4px 10px", borderRadius:999,
+          }}>
+            {t}
+            <button onClick={()=>onRemove(t)} style={{ background:"none", border:"none", color:"rgba(255,255,255,0.7)", cursor:"pointer", padding:0, fontSize:14, lineHeight:1 }}>×</button>
+          </span>
+        ))}
+      </div>
+      <div style={{ display:"flex", gap:8 }}>
+        <input
+          value={val} onChange={e=>setVal(e.target.value)}
+          onKeyDown={e=>e.key==="Enter"&&(e.preventDefault(),add())}
+          onFocus={()=>setFocused(true)} onBlur={()=>setFocused(false)}
+          placeholder={placeholder}
+          style={{
+            flex:1, padding:"10px 14px",
+            background: focused?C.white:C.creamDark,
+            border:`1.5px solid ${focused?C.navy:"transparent"}`,
+            borderRadius:8, fontSize:13, color:C.text,
+            outline:"none", fontFamily:"inherit",
+          }}
+        />
+        <button onClick={add} style={{
+          padding:"10px 16px", background:C.navy, color:C.white,
+          border:"none", borderRadius:8, fontSize:13, fontWeight:600,
+          cursor:"pointer", fontFamily:"inherit",
+        }}>추가</button>
+      </div>
+    </div>
+  );
+};
+
+/* ══════════════ STEP 1 — 직무·경력 ══════════════ */
+const Step1 = ({ data, onChange }) => (
+  <div style={{ display:"flex", flexDirection:"column", gap:22 }}>
+    <div>
+      <h3 style={{ fontSize:20, fontWeight:700, color:C.text, marginBottom:4 }}>직무 · 경력 정보</h3>
+      <p style={{ fontSize:13, color:C.textSub }}>멘티에게 보여질 기본 프로필을 설정해주세요</p>
+    </div>
+    <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:16 }}>
+      <Input label="현 소속 기업" placeholder="예) 네이버" value={data.company} onChange={e=>onChange("company",e.target.value)}/>
+      <Input label="직무" placeholder="예) 백엔드 개발" value={data.job} onChange={e=>onChange("job",e.target.value)}/>
+    </div>
+    <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:16 }}>
+      <Input label="경력 (년차)" placeholder="예) 6" type="number" value={data.years} onChange={e=>onChange("years",e.target.value)}/>
+      <Input label="이전 경력 (선택)" placeholder="예) 카카오페이, 쿠팡" value={data.prevCompany} onChange={e=>onChange("prevCompany",e.target.value)}/>
+    </div>
+    <TagInput
+      label="전문 기술 스택"
+      tags={data.techStack}
+      onAdd={t=>onChange("techStack",[...data.techStack,t])}
+      onRemove={t=>onChange("techStack",data.techStack.filter(x=>x!==t))}
+      placeholder="예) Java, Spring Boot — Enter 또는 추가 버튼"
+    />
+    <Input
+      label="멘토 소개" multiline rows={4}
+      placeholder="현장에서의 경험과 코칭 방식을 자유롭게 적어주세요."
+      value={data.bio} onChange={e=>onChange("bio",e.target.value)}
+    />
+  </div>
+);
+
+/* ══════════════ STEP 2 — 면접 강점 ══════════════ */
+const INTERVIEW_TYPES = [
+  { id:"tech",    label:"기술 면접",   desc:"CS, 알고리즘, 프로젝트 심층 질문" },
+  { id:"culture", label:"인성 면접",   desc:"STAR 기법, 경험 구조화" },
+  { id:"portfolio",label:"포트폴리오", desc:"프로젝트 리뷰 및 개선 방향 제시" },
+  { id:"mock",    label:"모의 면접",   desc:"실전 환경 면접 연습" },
+];
+
+const Step2 = ({ data, onChange }) => (
+  <div style={{ display:"flex", flexDirection:"column", gap:22 }}>
+    <div>
+      <h3 style={{ fontSize:20, fontWeight:700, color:C.text, marginBottom:4 }}>면접 강점 설정</h3>
+      <p style={{ fontSize:13, color:C.textSub }}>나의 코칭 유형과 핵심 강점을 알려주세요</p>
+    </div>
+
+    {/* 면접 유형 다중 선택 */}
+    <div>
+      <label style={{ fontSize:13, fontWeight:600, color:C.text, display:"block", marginBottom:12 }}>집중 코칭 유형 (복수 선택)</label>
+      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }}>
+        {INTERVIEW_TYPES.map(t => {
+          const sel = data.types.includes(t.id);
+          return (
+            <button key={t.id} type="button" onClick={()=>
+              onChange("types", sel ? data.types.filter(x=>x!==t.id) : [...data.types,t.id])
+            } style={{
+              padding:"14px 16px", textAlign:"left",
+              background: sel ? C.navy : C.white,
+              border:`1.5px solid ${sel ? C.navy : C.border}`,
+              borderRadius:10, cursor:"pointer", fontFamily:"inherit",
+              transition:"all 0.18s",
+            }}>
+              <p style={{ fontSize:14, fontWeight:700, color: sel?C.white:C.text, marginBottom:3 }}>{t.label}</p>
+              <p style={{ fontSize:12, color: sel?"rgba(255,255,255,0.65)":C.textSub }}>{t.desc}</p>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+
+    <TagInput
+      label="면접 집중 코칭 항목"
+      tags={data.focusItems}
+      onAdd={t=>onChange("focusItems",[...data.focusItems,t])}
+      onRemove={t=>onChange("focusItems",data.focusItems.filter(x=>x!==t))}
+      placeholder="예) CS 기초 및 프로젝트 Deep-Dive — Enter"
+    />
+
+    <Input
+      label="한 줄 코칭 철학" multiline rows={3}
+      placeholder='"단순한 정답 공유가 아닌, 현업에서 통하는 사고방식을 길러드립니다."'
+      value={data.philosophy} onChange={e=>onChange("philosophy",e.target.value)}
+    />
+  </div>
+);
+
+/* ══════════════ STEP 3 — 정원·일정 설정 ══════════════ */
+const CapacityCard = ({ n, label, selected, onClick }) => (
+  <button type="button" onClick={onClick} style={{
+    flex:1, padding:"18px 8px", textAlign:"center",
+    background: selected ? C.white : C.bg,
+    border:`2px solid ${selected ? C.navy : C.border}`,
+    borderRadius:10, cursor:"pointer", fontFamily:"inherit",
+    transition:"all 0.18s",
+    boxShadow: selected ? "0 2px 12px rgba(13,34,68,0.12)" : "none",
+  }}>
+    <p style={{ fontSize:28, fontWeight:700, color: selected?C.navy:C.textMuted, marginBottom:4 }}>{n}</p>
+    <p style={{ fontSize:12, color: selected?C.textSub:C.textMuted }}>{label}</p>
+  </button>
+);
+
+const Step3 = ({ data, onChange }) => {
+  const toggleSlot = (day, time) => {
+    const key = `${day}-${time}`;
+    const cur = data.slots;
+    onChange("slots", cur.includes(key) ? cur.filter(x=>x!==key) : [...cur, key]);
+  };
+  const isSlotOn = (day, time) => data.slots.includes(`${day}-${time}`);
+
+  return (
+    <div style={{ display:"flex", flexDirection:"column", gap:28 }}>
+      <div>
+        <h3 style={{ fontSize:20, fontWeight:700, color:C.text, marginBottom:4 }}>정원 · 가능 일정 설정</h3>
+        <p style={{ fontSize:13, color:C.textSub }}>최대 동시 예약 인원과 멘토링 가능한 시간대를 설정해주세요</p>
+      </div>
+
+      {/* 정원 선택 */}
+      <div>
+        <label style={{ fontSize:13, fontWeight:600, color:C.text, display:"block", marginBottom:12 }}>최대 동시 예약 인원</label>
+        <div style={{ display:"flex", gap:10 }}>
+          {[{n:"1",l:"1:1 전용"},{n:"2",l:"최대 2인"},{n:"3",l:"최대 3인"},{n:"4",l:"최대 4인"}].map(c=>(
+            <CapacityCard key={c.n} n={c.n} label={c.l}
+              selected={data.capacity===c.n}
+              onClick={()=>onChange("capacity",c.n)}/>
+          ))}
+        </div>
+        {parseInt(data.capacity)>=2 && (
+          <p style={{ fontSize:12, color:C.teal, marginTop:8 }}>✓ 2인 이상 선택 시 그룹 면접 모드가 활성화됩니다</p>
+        )}
+      </div>
+
+      {/* 시간표 */}
+      <div>
+        <label style={{ fontSize:13, fontWeight:600, color:C.text, display:"block", marginBottom:12 }}>멘토링 가능 시간</label>
+        <div style={{ overflowX:"auto" }}>
+          <table style={{ width:"100%", borderCollapse:"separate", borderSpacing:"4px 4px", minWidth:560 }}>
+            <thead>
+              <tr>
+                {DAYS.map(d=>(
+                  <th key={d} style={{ fontSize:11, fontWeight:600, color:C.textMuted, padding:"4px 0", textAlign:"center" }}>{d}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {TIMES.map(time=>(
+                <tr key={time}>
+                  {DAYS.map(day=>{
+                    const on = isSlotOn(day,time);
+                    return (
+                      <td key={day} style={{ padding:"2px" }}>
+                        <button type="button" onClick={()=>toggleSlot(day,time)} style={{
+                          width:"100%", padding:"7px 4px",
+                          background: on ? "#111" : C.creamDark,
+                          color: on ? C.white : C.textMuted,
+                          border:`1px solid ${on?"#111":C.border}`,
+                          borderRadius:6, cursor:"pointer",
+                          fontSize:11, fontWeight: on?600:400,
+                          fontFamily:"inherit", transition:"all 0.15s",
+                        }}>
+                          {time}
+                        </button>
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div style={{ display:"flex", gap:16, marginTop:10 }}>
+          <div style={{ display:"flex", alignItems:"center", gap:6 }}>
+            <div style={{ width:10, height:10, borderRadius:2, background:"#111" }}/>
+            <span style={{ fontSize:11, color:C.textMuted }}>확정 슬롯</span>
+          </div>
+          <div style={{ display:"flex", alignItems:"center", gap:6 }}>
+            <div style={{ width:10, height:10, borderRadius:2, background:C.creamDark, border:`1px solid ${C.border}` }}/>
+            <span style={{ fontSize:11, color:C.textMuted }}>임시 가능 슬롯 — 클릭으로 선택/해제</span>
+          </div>
+        </div>
+      </div>
+
+      {/* 세션 기본 설정 */}
+      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:16 }}>
+        <div>
+          <label style={{ fontSize:13, fontWeight:600, color:C.text, display:"block", marginBottom:10 }}>세션 기본 길이</label>
+          <div style={{ display:"flex", gap:8 }}>
+            {["30분","60분","90분"].map(d=>(
+              <button key={d} type="button" onClick={()=>onChange("duration",d)} style={{
+                flex:1, padding:"10px 0",
+                background: data.duration===d ? C.navy : C.white,
+                color: data.duration===d ? C.white : C.text,
+                border:`1.5px solid ${data.duration===d?C.navy:C.border}`,
+                borderRadius:8, cursor:"pointer",
+                fontSize:13, fontWeight:600, fontFamily:"inherit",
+              }}>{d}</button>
+            ))}
+          </div>
+        </div>
+        <div>
+          <label style={{ fontSize:13, fontWeight:600, color:C.text, display:"block", marginBottom:10 }}>
+            포인트 (세션당)
+            <span style={{ fontSize:11, color:C.textMuted, fontWeight:400, marginLeft:6 }}>1 P = 1,000원</span>
+          </label>
+          <div style={{ display:"flex", alignItems:"center", gap:10 }}>
+            <input
+              type="number" min="10" max="500" step="10"
+              value={data.point}
+              onChange={e=>onChange("point",e.target.value)}
+              style={{
+                width:100, padding:"10px 12px",
+                background:C.creamDark, border:"1.5px solid transparent",
+                borderRadius:8, fontSize:16, fontWeight:700,
+                color:C.navy, outline:"none", fontFamily:"inherit",
+                textAlign:"center",
+              }}
+              onFocus={e=>{e.target.style.borderColor=C.navy;e.target.style.background=C.white;}}
+              onBlur={e=>{e.target.style.borderColor="transparent";e.target.style.background=C.creamDark;}}
+            />
+            <span style={{ fontSize:16, fontWeight:700, color:C.navy }}>P</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ══════════════ STEP 4 — 최종 확인 ══════════════ */
+const ReviewRow = ({ label, value }) => (
+  <div style={{ display:"flex", gap:16, padding:"12px 0", borderBottom:`1px solid ${C.border}` }}>
+    <span style={{ width:120, flexShrink:0, fontSize:13, color:C.textMuted }}>{label}</span>
+    <span style={{ fontSize:13, color:C.text, fontWeight:500, flex:1 }}>{value || "—"}</span>
+  </div>
+);
+
+const Step4 = ({ d1, d2, d3 }) => {
+  const confirmedSlots = d3.slots.length;
+  return (
+    <div style={{ display:"flex", flexDirection:"column", gap:24 }}>
+      <div>
+        <h3 style={{ fontSize:20, fontWeight:700, color:C.text, marginBottom:4 }}>최종 확인</h3>
+        <p style={{ fontSize:13, color:C.textSub }}>등록 내용을 한 번 더 확인해주세요</p>
+      </div>
+      <div style={{ background:C.white, borderRadius:14, padding:"20px 24px", border:`1px solid ${C.border}` }}>
+        <p style={{ fontSize:12, fontWeight:700, color:C.textMuted, letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>기본 정보</p>
+        <ReviewRow label="기업·직무" value={`${d1.company} / ${d1.job}`}/>
+        <ReviewRow label="경력" value={`${d1.years}년차`}/>
+        <ReviewRow label="기술 스택" value={d1.techStack.join(", ")}/>
+      </div>
+      <div style={{ background:C.white, borderRadius:14, padding:"20px 24px", border:`1px solid ${C.border}` }}>
+        <p style={{ fontSize:12, fontWeight:700, color:C.textMuted, letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>면접 강점</p>
+        <ReviewRow label="코칭 유형" value={d2.types.join(", ")}/>
+        <ReviewRow label="집중 항목" value={d2.focusItems.join(", ")}/>
+      </div>
+      <div style={{ background:C.white, borderRadius:14, padding:"20px 24px", border:`1px solid ${C.border}` }}>
+        <p style={{ fontSize:12, fontWeight:700, color:C.textMuted, letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>일정·정원</p>
+        <ReviewRow label="최대 인원" value={`${d3.capacity}인`}/>
+        <ReviewRow label="세션 길이" value={d3.duration}/>
+        <ReviewRow label="포인트" value={`${d3.point} P / 세션`}/>
+        <ReviewRow label="가능 슬롯" value={`${confirmedSlots}개 시간대 선택됨`}/>
+      </div>
+      <div style={{ background:C.teal+"18", border:`1.5px solid ${C.teal}`, borderRadius:12, padding:"14px 18px" }}>
+        <p style={{ fontSize:13, color:C.teal, fontWeight:600 }}>
+          ✓ 등록 완료 후 멘토 탐색 페이지에 프로필이 공개됩니다.
+        </p>
+      </div>
+    </div>
+  );
+};
+
+/* ══════════════ 메인 컴포넌트 ══════════════ */
+export default function MentorInfoRegister() {
+  const navigate = useNavigate();
+  const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
+
+  const [d1, setD1] = useState({ company:"", job:"", years:"", prevCompany:"", techStack:[], bio:"" });
+  const [d2, setD2] = useState({ types:[], focusItems:[], philosophy:"" });
+  const [d3, setD3] = useState({ capacity:"1", slots:[], duration:"60분", point:"50" });
+
+  const upd1 = (k,v) => setD1(p=>({...p,[k]:v}));
+  const upd2 = (k,v) => setD2(p=>({...p,[k]:v}));
+  const upd3 = (k,v) => setD3(p=>({...p,[k]:v}));
+
+  const handleNext = () => { if(step<4) setStep(s=>s+1); };
+  const handlePrev = () => { if(step>1) setStep(s=>s-1); };
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    await new Promise(r=>setTimeout(r,1000));
+    setLoading(false);
+    navigate("/dashboard/mentor");
+  };
+
+  return (
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+        body{font-family:'Noto Sans KR',sans-serif;background:${C.bg}}
+        @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+        @media(max-width:768px){
+          .reg-layout{flex-direction:column !important}
+          .reg-sidebar{display:none !important}
+        }
+      `}</style>
+
+      <Header/>
+
+      {/* 페이지 타이틀 */}
+      <div style={{ background:C.white, borderBottom:`1px solid ${C.border}`, padding:"14px 5%" }}>
+        <div style={{ maxWidth:1100, margin:"0 auto" }}>
+          <p style={{ fontSize:15, fontWeight:700, color:C.text }}>멘토 등록</p>
+          <p style={{ fontSize:12, color:C.textMuted, marginTop:2 }}>멘토 프로필을 설정하고 멘티와 만나보세요</p>
+        </div>
+      </div>
+
+      <main style={{ maxWidth:1100, margin:"0 auto", padding:"40px 5% 60px" }}>
+        <div className="reg-layout" style={{ display:"flex", gap:48, alignItems:"flex-start" }}>
+
+          {/* 사이드바 */}
+          <div className="reg-sidebar"><Sidebar current={step}/></div>
+
+          {/* 메인 폼 카드 */}
+          <div style={{ flex:1 }}>
+            <div style={{
+              background:C.white, borderRadius:16,
+              padding:"36px 40px",
+              border:`1px solid ${C.border}`,
+              minHeight:520,
+              display:"flex", flexDirection:"column",
+            }}>
+              <div style={{ flex:1 }}>
+                {step===1 && <Step1 data={d1} onChange={upd1}/>}
+                {step===2 && <Step2 data={d2} onChange={upd2}/>}
+                {step===3 && <Step3 data={d3} onChange={upd3}/>}
+                {step===4 && <Step4 d1={d1} d2={d2} d3={d3}/>}
+              </div>
+
+              {/* 버튼 */}
+              <div style={{ display:"flex", justifyContent:"flex-end", gap:12, marginTop:36, paddingTop:24, borderTop:`1px solid ${C.border}` }}>
+                {step>1 && (
+                  <button onClick={handlePrev} style={{
+                    padding:"12px 28px",
+                    background:C.white, color:C.text,
+                    border:`1.5px solid ${C.border}`, borderRadius:8,
+                    fontSize:14, fontWeight:500, cursor:"pointer", fontFamily:"inherit",
+                    transition:"border-color 0.18s",
+                  }} onMouseEnter={e=>e.currentTarget.style.borderColor=C.navy}
+                     onMouseLeave={e=>e.currentTarget.style.borderColor=C.border}>
+                    이전
+                  </button>
+                )}
+                <button onClick={step===4?handleSubmit:handleNext} disabled={loading} style={{
+                  padding:"12px 36px",
+                  background:C.navy, color:C.white,
+                  border:"none", borderRadius:8,
+                  fontSize:14, fontWeight:700, cursor:"pointer", fontFamily:"inherit",
+                  opacity:loading?0.7:1, transition:"background 0.18s",
+                }} onMouseEnter={e=>{if(!loading)e.currentTarget.style.background=C.navyMid}}
+                   onMouseLeave={e=>e.currentTarget.style.background=C.navy}>
+                  {loading
+                    ? <span style={{display:"inline-flex",alignItems:"center",gap:8}}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" style={{animation:"spin 0.8s linear infinite"}}><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                        처리 중...
+                      </span>
+                    : step===4 ? "등록 완료하기" : "다음 단계"
+                  }
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </>
+  );
+}
