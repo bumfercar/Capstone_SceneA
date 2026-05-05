@@ -60,7 +60,8 @@ export default function InterviewRobby({ role = "mentee" }) {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-        html,body,#root{height:100%}
+        html,body{height:100%;margin:0;overflow:hidden}
+        #root{height:100%;width:100%;max-width:100%;margin:0;min-height:0;display:block;text-align:left}
         body{font-family:'Noto Sans KR',sans-serif;background:#000;color:white}
         @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
         @keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
@@ -68,11 +69,12 @@ export default function InterviewRobby({ role = "mentee" }) {
       `}</style>
 
       <div style={{
-        width:"100vw", minHeight:"100vh",
+        width:"100%", height:"100vh",
         background:"#000",
         display:"flex", flexDirection:"column",
         alignItems:"center", justifyContent:"center",
         padding:"40px 5%",
+        overflow:"hidden", boxSizing:"border-box",
       }}>
         <div className="ready-layout" style={{
           display:"flex", gap:0,

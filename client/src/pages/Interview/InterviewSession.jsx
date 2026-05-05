@@ -70,7 +70,7 @@ export default function InterviewSession({ role = "mentee" }) {
     if(!window.confirm("면접을 종료하시겠습니까?")) return;
     setEnding(true);
     await new Promise(r=>setTimeout(r,800));
-    navigate(isMentor ? "/dashboard/mentor" : "/dashboard/mentee");
+    navigate(`/report/ai/${id}`, { state: { role: isMentor ? "mentor" : "mentee" } });
   };
 
   const sendChat = () => {
@@ -84,7 +84,8 @@ export default function InterviewSession({ role = "mentee" }) {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-        html,body,#root{height:100%;overflow:hidden}
+        html,body{height:100%;overflow:hidden;margin:0}
+        #root{height:100%;overflow:hidden;min-height:0;width:100%;max-width:100%;margin:0;display:block;text-align:left}
         body{font-family:'Noto Sans KR',sans-serif;background:#f5f5f5;color:#111}
         @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
         @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}

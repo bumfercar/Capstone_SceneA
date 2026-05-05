@@ -10,6 +10,8 @@ import MentorApply from './pages/Mentee/MentorApply'
 import DocumentUpload from './pages/Mentee/DocumentUpload'
 import InterviewSession from './pages/Interview/InterviewSession'
 import InterviewRobby from './pages/Interview/InterviewLobby'
+import MentorFeedbackPage from './pages/Report/MentorFeedback'
+import FinalReportPage from './pages/Report/FinalReport'
 
 export default function App() {
   return (
@@ -27,6 +29,9 @@ export default function App() {
       <Route path="/interview/ready-mentor/:id" element={<InterviewRobby role="mentor" />} />
       <Route path="/interview/mentee/:id" element={<InterviewSession role="mentee" />} />
       <Route path="/interview/mentor/:id" element={<InterviewSession role="mentor" />} />
+      <Route path="/mentor/feedback/:sessionId" element={<MentorFeedbackPage />} />
+      <Route path="/report/final" element={<FinalReportPage />} />
+      
     </Routes>
   )
 }
