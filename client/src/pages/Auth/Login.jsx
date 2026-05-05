@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { setAuthUser } from "../../store/authStore";
 
 /* ============================================================
    로그인 페이지  (pages/Auth/Login.jsx)
@@ -121,6 +122,7 @@ export default function Login() {
     try {
       /* TODO: 실제 로그인 API 연동 */
       await new Promise(r => setTimeout(r, 900));
+      setAuthUser({ role, name: email });
       navigate(role === "mentor" ? "/dashboard/mentor" : "/dashboard/mentee");
     } catch {
       setError("이메일 또는 비밀번호를 확인해주세요.");
@@ -204,7 +206,7 @@ export default function Login() {
 
         {/* ════════════════ 왼쪽 네이비 패널 ════════════════ */}
         <div className="login-left" style={{
-          width: "42%",
+          width: "30%",
           flexShrink: 0,
           background: C.navy,
           display: "flex",

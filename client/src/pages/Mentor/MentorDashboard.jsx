@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { clearAuthUser } from "../../store/authStore";
 
 /* ============================================================
    멘토 대시보드  (pages/Dashboard/MentorDashboard.jsx)
@@ -65,7 +66,11 @@ const QuoteIcon = () => (
 
 /* ── 헤더 ── */
 const Header = ({ userName }) => {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    clearAuthUser();
+    navigate("/");
+  };
   return (
     <header style={{
       background: C.navy, padding:"0 5%",
@@ -76,25 +81,18 @@ const Header = ({ userName }) => {
         display:"flex", alignItems:"center",
         justifyContent:"space-between", height:64,
       }}>
-        {/* 좌측: 인사말 */}
         <span style={{ fontSize:15, fontWeight:600, color:C.white }}>
           안녕하세요 <span style={{ color:"rgba(255,255,255,0.75)" }}>{userName}</span>님
         </span>
-
-        {/* 가운데: 로고 */}
         <Link to="/" style={{ textDecoration:"none" }}>
           <LogoIcon size={28} color={C.white}/>
         </Link>
-
-        {/* 우측: 네비 */}
-        <div style={{ display:"flex", alignItems:"center", gap:32 }}>
+        <div style={{ display:"flex", alignItems:"center", gap:24 }}>
           {["멘토 탐색", "예약 확인", "MyPage"].map((label, i) => (
             <Link key={i} to={["#", "#", "#"][i]} style={{
               fontSize:14, fontWeight: label==="MyPage" ? 700 : 400,
-              color: C.white,
-              textDecoration:"none",
-              opacity: 0.85,
-              transition:"opacity 0.15s",
+              color: C.white, textDecoration:"none",
+              opacity: 0.85, transition:"opacity 0.15s",
             }}
               onMouseEnter={e => e.target.style.opacity=1}
               onMouseLeave={e => e.target.style.opacity=0.85}
@@ -102,6 +100,18 @@ const Header = ({ userName }) => {
               {label}
             </Link>
           ))}
+          <button onClick={handleLogout} style={{
+            padding:"7px 16px", borderRadius:8,
+            border:"1px solid rgba(255,255,255,0.3)",
+            background:"transparent", color:"rgba(255,255,255,0.85)",
+            fontSize:13, fontWeight:500, cursor:"pointer",
+            fontFamily:"inherit", transition:"background 0.15s, border-color 0.15s",
+          }}
+            onMouseEnter={e => { e.currentTarget.style.background="rgba(255,255,255,0.12)"; e.currentTarget.style.borderColor="rgba(255,255,255,0.6)"; }}
+            onMouseLeave={e => { e.currentTarget.style.background="transparent"; e.currentTarget.style.borderColor="rgba(255,255,255,0.3)"; }}
+          >
+            로그아웃
+          </button>
         </div>
       </nav>
     </header>

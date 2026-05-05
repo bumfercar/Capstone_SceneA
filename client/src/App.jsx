@@ -10,8 +10,12 @@ import MentorApply from './pages/Mentee/MentorApply'
 import DocumentUpload from './pages/Mentee/DocumentUpload'
 import InterviewSession from './pages/Interview/InterviewSession'
 import InterviewRobby from './pages/Interview/InterviewLobby'
+import MentoringSessionPage from './pages/Interview/MentoringSession'
+import AIReportPage from './pages/Report/AIReport'
+import ReportWaitingPage from './pages/Report/ReportWaiting'
 import MentorFeedbackPage from './pages/Report/MentorFeedback'
 import FinalReportPage from './pages/Report/FinalReport'
+import MyPage from './pages/MyPage'
 
 export default function App() {
   return (
@@ -29,8 +33,13 @@ export default function App() {
       <Route path="/interview/ready-mentor/:id" element={<InterviewRobby role="mentor" />} />
       <Route path="/interview/mentee/:id" element={<InterviewSession role="mentee" />} />
       <Route path="/interview/mentor/:id" element={<InterviewSession role="mentor" />} />
+      <Route path="/mentoring/mentee/:sessionId" element={<MentoringSessionPage />} />
+      <Route path="/mentoring/mentor/:sessionId" element={<MentoringSessionPage />} />
+      <Route path="/report/ai/:sessionId" element={<AIReportPage />} />
+      <Route path="/report/ai-stream/:sessionId" element={<ReportWaitingPage />} />
       <Route path="/mentor/feedback/:sessionId" element={<MentorFeedbackPage />} />
       <Route path="/report/final" element={<FinalReportPage />} />
+      <Route path="/mypage" element={<MyPage />} />
       
     </Routes>
   )

@@ -62,7 +62,7 @@ export default function InterviewRobby({ role = "mentee" }) {
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
         html,body{height:100%;margin:0;overflow:hidden}
         #root{height:100%;width:100%;max-width:100%;margin:0;min-height:0;display:block;text-align:left}
-        body{font-family:'Noto Sans KR',sans-serif;background:#000;color:white}
+        body{font-family:'Noto Sans KR',sans-serif;background:#F2F0EB;color:white}
         @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
         @keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
         @media(max-width:820px){.ready-layout{flex-direction:column!important}.ready-left,.ready-right{width:100%!important}}
@@ -70,33 +70,33 @@ export default function InterviewRobby({ role = "mentee" }) {
 
       <div style={{
         width:"100%", height:"100vh",
-        background:"#000",
+        background:"#F2F0EB",
         display:"flex", flexDirection:"column",
-        alignItems:"center", justifyContent:"center",
-        padding:"40px 5%",
+        alignItems:"stretch",
+        padding:"32px",
         overflow:"hidden", boxSizing:"border-box",
       }}>
         <div className="ready-layout" style={{
           display:"flex", gap:0,
-          width:"100%", maxWidth:1100,
-          borderRadius:16, overflow:"hidden",
-          background:"#111",
-          minHeight:520,
+          width:"100%", height:"100%",
+          borderRadius:20, overflow:"hidden",
+          background:"#0D2244",
+          boxShadow:"0 24px 64px rgba(13,34,68,0.25)",
         }}>
 
           {/* ════ 왼쪽: 카메라 영역 ════ */}
           <div className="ready-left" style={{
-            flex:1, background:"#0a0a0a",
+            flex:1, background:"#0a1628",
             display:"flex", flexDirection:"column",
             alignItems:"center", justifyContent:"center",
-            padding:"36px 24px", gap:24,
+            padding:"36px 28px", gap:24,
             position:"relative",
           }}>
             {/* 카메라 프리뷰 */}
             <div style={{
               width:"100%", maxWidth:460,
               aspectRatio:"4/3",
-              background:"#1a1a1a",
+              background:"#0d1f3c",
               borderRadius:12, overflow:"hidden",
               position:"relative",
               display:"flex", alignItems:"center", justifyContent:"center",
@@ -107,7 +107,7 @@ export default function InterviewRobby({ role = "mentee" }) {
                   <div style={{ textAlign:"center" }}>
                     <div style={{
                       width:72, height:72, borderRadius:"50%",
-                      background:"#2a2a2a", margin:"0 auto 12px",
+                      background:"#1a3060", margin:"0 auto 12px",
                       display:"flex", alignItems:"center", justifyContent:"center",
                     }}>
                       {camStatus==="loading"
@@ -175,11 +175,11 @@ export default function InterviewRobby({ role = "mentee" }) {
 
           {/* ════ 오른쪽: 브리핑 ════ */}
           <div className="ready-right" style={{
-            width:380, flexShrink:0,
-            background:"#111",
-            padding:"32px 28px",
+            width:420, flexShrink:0,
+            background:"#0D2244",
+            padding:"36px 32px",
             display:"flex", flexDirection:"column", gap:20,
-            borderLeft:"1px solid #222",
+            borderLeft:"1px solid rgba(255,255,255,0.08)",
             overflowY:"auto",
           }}>
             {/* 세션 정보 */}
@@ -197,8 +197,8 @@ export default function InterviewRobby({ role = "mentee" }) {
 
             {/* 상대방 정보 */}
             <div style={{
-              background:"#1a1a1a", borderRadius:12, padding:"16px",
-              border:"1px solid #2a2a2a",
+              background:"rgba(255,255,255,0.06)", borderRadius:12, padding:"16px",
+              border:"1px solid rgba(255,255,255,0.1)",
             }}>
               <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:10 }}>
                 <div style={{
@@ -225,8 +225,8 @@ export default function InterviewRobby({ role = "mentee" }) {
 
             {/* AI 사전 분석 리포트 */}
             <div style={{
-              background:"#1a1a1a", borderRadius:12, padding:"16px",
-              border:"1px solid #2a2a2a",
+              background:"rgba(255,255,255,0.06)", borderRadius:12, padding:"16px",
+              border:"1px solid rgba(255,255,255,0.1)",
             }}>
               <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.1em", color:"rgba(255,255,255,0.4)", textTransform:"uppercase", marginBottom:8 }}>
                 AI 사전 분석 리포트
@@ -239,8 +239,8 @@ export default function InterviewRobby({ role = "mentee" }) {
             {/* 체크리스트 (멘토만) */}
             {isMentor && (
               <div style={{
-                background:"#1a1a1a", borderRadius:12, padding:"14px 16px",
-                border:"1px solid #2a2a2a",
+                background:"rgba(255,255,255,0.06)", borderRadius:12, padding:"14px 16px",
+                border:"1px solid rgba(255,255,255,0.1)",
               }}>
                 <p style={{ fontSize:11, fontWeight:700, color:"rgba(255,255,255,0.5)", marginBottom:10 }}>입장 전 체크</p>
                 {[
@@ -263,15 +263,15 @@ export default function InterviewRobby({ role = "mentee" }) {
             {/* 입장 버튼 */}
             <button onClick={handleEnter} style={{
               width:"100%", padding:"16px",
-              background:C_white, color:"#000",
+              background:"#F2F0EB", color:"#0D2244",
               border:"none", borderRadius:12,
-              fontSize:15, fontWeight:700,
+              fontSize:16, fontWeight:700,
               cursor:"pointer",
               fontFamily:"inherit", transition:"background 0.2s",
               letterSpacing:"0.02em",
             }}
-              onMouseEnter={e=>e.currentTarget.style.background="#f0f0f0"}
-              onMouseLeave={e=>e.currentTarget.style.background=C_white}
+              onMouseEnter={e=>e.currentTarget.style.background="#E8E5DE"}
+              onMouseLeave={e=>e.currentTarget.style.background="#F2F0EB"}
             >
               입장하기
             </button>

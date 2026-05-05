@@ -81,42 +81,16 @@ function FitGapBar({ label, pct }) {
 
 // ─── export 유틸 ─────────────────────────────────────────────────
 function exportToPDF(reportData) {
-  const printStyles = `
-    <style>
-      @page { margin: 20mm; }
-      body { font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif; color: #111; line-height: 1.8; }
-      h1 { font-size: 22px; color: #0D2240; border-bottom: 2px solid #1D9E75; padding-bottom: 10px; }
-      h2 { font-size: 15px; color: #0D2240; margin-top: 24px; }
-      .best { background: #E1F5EE; padding: 12px; border-radius: 7px; border-left: 4px solid #1D9E75; margin: 8px 0; }
-      .worst { background: #FFF5F5; padding: 12px; border-radius: 7px; border-left: 4px solid #E24B4A; margin: 8px 0; }
-      .mentor-section { background: #F0F9F4; border: 2px solid #1D9E75; border-radius: 10px; padding: 16px; margin-top: 24px; }
-      table { border-collapse: collapse; width: 100%; }
-      td, th { border: 1px solid #ddd; padding: 8px 12px; font-size: 13px; }
-      th { background: #F0EFEB; font-weight: 700; }
-    </style>
-  `;
+  const el = document.getElementById("final-report-content");
+  const bodyHtml = el ? el.innerHTML : "<p>리포트 내용을 불러올 수 없습니다.</p>";
 
-  const html = `<!DOCTYPE html><html><head><meta charset="utf-8">${printStyles}</head><body>
-    <h1>최종 AI 면접 리포트</h1>
-    <p><strong>면접명:</strong> ${reportData.session.title}</p>
-    <p><strong>멘티:</strong> ${reportData.session.menteeName} | <strong>일시:</strong> ${reportData.session.date} | <strong>유형:</strong> ${reportData.session.type}</p>
-    <h2>핵심 문항</h2>
-    <div class="best"><strong>BEST:</strong> Q1 — 수치 기반 결과 제시, STAR 구조 완성</div>
-    <div class="worst"><strong>WORST:</strong> Q3 — 만연체, 이론 나열, R(결과) 누락</div>
-    <h2>Q&A 별점 및 멘토 코멘트</h2>
-    <table>
-      <tr><th>질문</th><th>AI 점수</th><th>멘토 점수</th><th>멘토 코멘트</th></tr>
-      ${reportData.session.qnas.map((q) => {
-        const fb = reportData.feedbacks[q.id] || {};
-        return `<tr><td>${q.question}</td><td>${q.aiScore}</td><td>${fb.score || q.aiScore}</td><td>${fb.comment || "-"}</td></tr>`;
-      }).join("")}
-    </table>
-    <div class="mentor-section">
-      <h2 style="margin-top:0">멘토 총 피드백 (${reportData.session.menteeName} 멘티에게)</h2>
-      <p>${(reportData.totalFeedback || "").replace(/\n/g, "<br>")}</p>
-      <p><strong>멘토 종합 평점:</strong> ${"★".repeat(Math.round(reportData.mentorScore))}${"☆".repeat(5 - Math.round(reportData.mentorScore))} ${Number(reportData.mentorScore).toFixed(1)}</p>
-    </div>
-  </body></html>`;
+  const html = `<!DOCTYPE html><html><head><meta charset="utf-8">
+  <style>
+    body { font-family: 'Malgun Gothic', 'Noto Sans KR', sans-serif; max-width: 860px; margin: 40px auto; color: #111; line-height: 1.8; background: #F0EFEB; }
+    button { display: none !important; }
+    svg { display: none !important; }
+  </style>
+  </head><body>${bodyHtml}</body></html>`;
 
   const blob = new Blob([html], { type: "application/msword;charset=utf-8" });
   const url = URL.createObjectURL(blob);
@@ -279,7 +253,7 @@ export default function FinalReportPage() {
         </div>
       </header>
 
-      <div style={{ maxWidth: 820, margin: "0 auto", padding: "32px 24px" }}>
+      <div id="final-report-content" style={{ maxWidth: 820, margin: "0 auto", padding: "32px 24px" }}>
         {/* ── 메타 정보 ─────────────────────────────────────────── */}
         <div style={{ marginBottom: 10 }}>
           <Tag bg="#E8E5DF" color="#555">1차 AI 리포트</Tag>

@@ -63,9 +63,9 @@ const Dropdown = ({ label, options, value, onChange }) => {
   return (
     <div style={{ position:"relative" }}>
       <button type="button" onClick={()=>setOpen(o=>!o)} style={{
-        display:"flex", alignItems:"center", gap:8, padding:"10px 18px",
+        display:"flex", alignItems:"center", gap:8, padding:"11px 20px",
         background:value?C.navy:C.navyMid, color:C.white,
-        border:"none", borderRadius:999, fontSize:14, fontWeight:500,
+        border:"none", borderRadius:999, fontSize:15, fontWeight:500,
         cursor:"pointer", fontFamily:"inherit",
       }}>
         {value||label}
@@ -80,16 +80,16 @@ const Dropdown = ({ label, options, value, onChange }) => {
           boxShadow:"0 8px 24px rgba(13,34,68,0.14)", minWidth:160, overflow:"hidden",
         }}>
           <button onClick={()=>{onChange("");setOpen(false);}} style={{
-            width:"100%", padding:"10px 16px", textAlign:"left", background:"transparent",
+            width:"100%", padding:"11px 18px", textAlign:"left", background:"transparent",
             border:"none", borderBottom:`1px solid ${C.border}`,
-            fontSize:13, color:C.textMuted, cursor:"pointer", fontFamily:"inherit",
+            fontSize:14, color:C.textMuted, cursor:"pointer", fontFamily:"inherit",
           }}>전체</button>
           {options.map((o,i)=>(
             <button key={i} onClick={()=>{onChange(o);setOpen(false);}} style={{
-              width:"100%", padding:"10px 16px", textAlign:"left",
+              width:"100%", padding:"11px 18px", textAlign:"left",
               background:value===o?C.cream:"transparent", border:"none",
               borderBottom:i<options.length-1?`1px solid ${C.border}`:"none",
-              fontSize:13, color:value===o?C.navy:C.text,
+              fontSize:14, color:value===o?C.navy:C.text,
               fontWeight:value===o?700:400, cursor:"pointer", fontFamily:"inherit",
             }}
               onMouseEnter={e=>{if(value!==o)e.currentTarget.style.background=C.cream}}
@@ -119,34 +119,34 @@ const MentorCard = ({ m, onClick }) => (
         justifyContent:"center", fontSize:20, fontWeight:700,
         color:C.white, marginBottom:10,
       }}>{m.name[0]}</div>
-      <p style={{ fontSize:16, fontWeight:700, color:C.text, marginBottom:3 }}>{m.name} 멘토</p>
-      <p style={{ fontSize:13, color:C.textSub }}>{m.company} / {m.job} {m.years}년차</p>
+      <p style={{ fontSize:18, fontWeight:700, color:C.text, marginBottom:4 }}>{m.name} 멘토</p>
+      <p style={{ fontSize:14, color:C.textSub }}>{m.company} / {m.job} {m.years}년차</p>
     </div>
     <div style={{ display:"flex", flexWrap:"wrap", gap:5, justifyContent:"center", marginBottom:14 }}>
       {m.tags.map((t,i)=>(
-        <span key={i} style={{ fontSize:11, padding:"3px 9px", borderRadius:999, background:C.bg, color:C.textSub }}>#{t}</span>
+        <span key={i} style={{ fontSize:12, padding:"4px 10px", borderRadius:999, background:C.bg, color:C.textSub }}>#{t}</span>
       ))}
     </div>
     <div style={{ borderTop:`1px solid ${C.border}`, paddingTop:12 }}>
       <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:8 }}>
         <div style={{ display:"flex", gap:2 }}>
           {"★★★★★".split("").map((s,i)=>(
-            <span key={i} style={{ fontSize:12, color:i<Math.floor(m.rating)?"#F59E0B":"#D1CFC9" }}>★</span>
+            <span key={i} style={{ fontSize:14, color:i<Math.floor(m.rating)?"#F59E0B":"#D1CFC9" }}>★</span>
           ))}
-          <span style={{ fontSize:12, color:C.textSub, marginLeft:3 }}>{m.rating}</span>
+          <span style={{ fontSize:13, color:C.textSub, marginLeft:3 }}>{m.rating}</span>
         </div>
-        <span style={{ fontSize:11, color:C.textMuted }}>후기 {m.reviews}건</span>
+        <span style={{ fontSize:13, color:C.textMuted }}>후기 {m.reviews}건</span>
       </div>
       <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
         <div style={{ display:"flex", gap:6 }}>
           <span style={{
-            fontSize:11, padding:"2px 8px", borderRadius:999, fontWeight:600,
+            fontSize:12, padding:"3px 10px", borderRadius:999, fontWeight:600,
             background:m.sessType==="1:1"?"#EEF5FF":"#E8F5EE",
             color:m.sessType==="1:1"?"#185FA5":C.teal,
           }}>{m.sessType}</span>
-          <span style={{ fontSize:11, color:C.textMuted, alignSelf:"center" }}>{m.available}</span>
+          <span style={{ fontSize:12, color:C.textMuted, alignSelf:"center" }}>{m.available}</span>
         </div>
-        <span style={{ fontSize:13, fontWeight:700, color:C.navy }}>{m.point} P<span style={{ fontSize:11, fontWeight:400, color:C.textMuted }}>/세션</span></span>
+        <span style={{ fontSize:15, fontWeight:700, color:C.navy }}>{m.point} P<span style={{ fontSize:12, fontWeight:400, color:C.textMuted }}>/세션</span></span>
       </div>
     </div>
   </div>
@@ -195,22 +195,22 @@ export default function MentorSearch() {
               onChange={e=>setSearch(e.target.value)}
               onFocus={()=>setFocused(true)} onBlur={()=>setFocused(false)}
               style={{
-                padding:"10px 14px 10px 34px", width:280,
+                padding:"11px 16px 11px 36px", width:300,
                 background:focused?C.white:C.creamDark,
                 border:`1.5px solid ${focused?C.navy:"transparent"}`,
-                borderRadius:999, fontSize:13, color:C.text,
+                borderRadius:999, fontSize:14, color:C.text,
                 outline:"none", fontFamily:"inherit", transition:"all 0.18s",
               }}/>
           </div>
           <div style={{ display:"flex", alignItems:"center", gap:6 }}>
-            <span style={{ fontSize:12, color:C.textMuted, marginRight:2 }}>정렬</span>
+            <span style={{ fontSize:14, color:C.textMuted, marginRight:2 }}>정렬</span>
             {[{v:"rating",l:"평점순"},{v:"reviews",l:"후기순"},{v:"point",l:"저렴한순"}].map(s=>(
               <button key={s.v} onClick={()=>setSortBy(s.v)} style={{
-                padding:"6px 12px", borderRadius:999,
+                padding:"8px 14px", borderRadius:999,
                 background:sortBy===s.v?C.navy:C.white,
                 color:sortBy===s.v?C.white:C.textSub,
                 border:`1px solid ${sortBy===s.v?C.navy:C.border}`,
-                fontSize:12, fontWeight:500, cursor:"pointer", fontFamily:"inherit",
+                fontSize:13, fontWeight:500, cursor:"pointer", fontFamily:"inherit",
               }}>{s.l}</button>
             ))}
           </div>
@@ -235,7 +235,7 @@ export default function MentorSearch() {
         </div>
 
         {/* 결과 수 */}
-        <p style={{ fontSize:13, color:C.textSub, marginBottom:20 }}>
+        <p style={{ fontSize:15, color:C.textSub, marginBottom:20 }}>
           <span style={{ fontWeight:700, color:C.text }}>{filtered.length}명</span>의 멘토를 찾았어요
         </p>
 

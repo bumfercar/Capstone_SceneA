@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { clearAuthUser } from "../../store/authStore";
 
 /* ============================================================
    멘티 대시보드  (pages/Dashboard/MenteeDashboard.jsx)
@@ -56,43 +57,48 @@ const SectionIcon = () => (
   </div>
 );
 
+/* ── 헤더 ── */
+const Header = ({ userName }) => {
+  const navigate = useNavigate();
+  const handleLogout = () => { clearAuthUser(); navigate("/"); };
+  return (
+    <header style={{ background:C.navy, padding:"0 32px", position:"sticky", top:0, zIndex:100 }}>
+      <nav style={{ display:"flex", alignItems:"center", justifyContent:"space-between", height:64 }}>
+        <span style={{ fontSize:15, fontWeight:600, color:C.white }}>
+          안녕하세요 <span style={{ color:"rgba(255,255,255,0.75)" }}>{userName}</span>님
+        </span>
+        <div style={{ display:"flex", alignItems:"center", gap:24 }}>
+          {[{ label:"멘토 탐색", to:"/mentor/search" }, { label:"예약 확인", to:"#" }, { label:"MyPage", to:"#" }]
+            .map((item, i) => (
+            <Link key={i} to={item.to} style={{
+              fontSize:14, fontWeight: item.label==="MyPage" ? 700 : 400,
+              color:C.white, textDecoration:"none", opacity:0.85, transition:"opacity 0.15s",
+            }}
+              onMouseEnter={e => e.target.style.opacity=1}
+              onMouseLeave={e => e.target.style.opacity=0.85}
+            >{item.label}</Link>
+          ))}
+          <button onClick={handleLogout} style={{
+            padding:"7px 16px", borderRadius:8,
+            border:"1px solid rgba(255,255,255,0.3)",
+            background:"transparent", color:"rgba(255,255,255,0.85)",
+            fontSize:13, fontWeight:500, cursor:"pointer", fontFamily:"inherit",
+            transition:"background 0.15s, border-color 0.15s",
+          }}
+            onMouseEnter={e => { e.currentTarget.style.background="rgba(255,255,255,0.12)"; e.currentTarget.style.borderColor="rgba(255,255,255,0.6)"; }}
+            onMouseLeave={e => { e.currentTarget.style.background="transparent"; e.currentTarget.style.borderColor="rgba(255,255,255,0.3)"; }}
+          >로그아웃</button>
+        </div>
+      </nav>
+    </header>
+  );
+};
+
 /* ── 따옴표 아이콘 ── */
 const QuoteIcon = () => (
   <svg width="28" height="20" viewBox="0 0 28 20" fill="none">
     <path d="M0 20V12C0 5.373 4.48 1.28 13.44 0l1.12 2.08C10.293 3.12 8 5.653 8 9.6V11h5V20H0zm15 0V12C15 5.373 19.48 1.28 28.44 0l1.12 2.08C25.293 3.12 23 5.653 23 9.6V11h5V20H15z" fill={C.border}/>
   </svg>
-);
-
-/* ── 헤더 ── */
-const Header = ({ userName }) => (
-  <header style={{ background:C.navy, padding:"0 5%", position:"sticky", top:0, zIndex:100 }}>
-    <nav style={{
-      maxWidth:1200, margin:"0 auto",
-      display:"flex", alignItems:"center",
-      justifyContent:"space-between", height:64,
-    }}>
-      <span style={{ fontSize:15, fontWeight:600, color:C.white }}>
-        안녕하세요 <span style={{ color:"rgba(255,255,255,0.75)" }}>{userName}</span>님
-      </span>
-      <Link to="/" style={{ textDecoration:"none" }}>
-        <LogoIcon size={28} color={C.white}/>
-      </Link>
-      <div style={{ display:"flex", alignItems:"center", gap:32 }}>
-        {[{ label:"멘토 탐색", to:"/mentor/search" }, { label:"예약 확인", to:"#" }, { label:"MyPage", to:"#" }]
-          .map((item, i) => (
-          <Link key={i} to={item.to} style={{
-            fontSize:14, fontWeight: item.label==="MyPage" ? 700 : 400,
-            color:C.white, textDecoration:"none", opacity:0.85, transition:"opacity 0.15s",
-          }}
-            onMouseEnter={e => e.target.style.opacity=1}
-            onMouseLeave={e => e.target.style.opacity=0.85}
-          >
-            {item.label}
-          </Link>
-        ))}
-      </div>
-    </nav>
-  </header>
 );
 
 /* ── 면접 세션 카드 (검정 배경) ── */
@@ -278,8 +284,7 @@ export default function MenteeDashboard() {
       `}</style>
 
       <Header userName={userName}/>
-
-      <main style={{ maxWidth:1100, margin:"0 auto", padding:"36px 5% 60px" }}>
+      <main style={{ padding:"36px 32px 60px" }}>
 
         {/* ── 상단 배너 카드 (멘토 찾기 CTA) ── */}
         <div style={{

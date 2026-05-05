@@ -589,11 +589,11 @@ export default function Register() {
         @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
       `}</style>
 
-      <div style={{ display:"flex", minHeight:"100vh", fontFamily:"'Noto Sans KR', sans-serif" }}>
+      <div style={{ position:"fixed", inset:0, zIndex:1000, display:"flex", overflowY:"auto", fontFamily:"'Noto Sans KR', sans-serif" }}>
 
         {/* ════════ 왼쪽 네이비 패널 ════════ */}
         <div className="reg-left" style={{
-          width:"42%", flexShrink:0,
+          width:"30%", flexShrink:0,
           background:C.navy,
           display:"flex", flexDirection:"column",
           justifyContent:"space-between",

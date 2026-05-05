@@ -8,13 +8,13 @@ import { Link } from "react-router-dom";
 
 /* ── 컬러 & 스타일 상수 ── */
 const C = {
-  navy:     "#0D2244",
-  navyMid:  "#1A3660",
-  cream:    "#F2F0EB",
-  creamDark:"#E8E5DE",
+  navy:     "#0D2240",   // Main 딥 네이비
+  accent:   "#1B4F7A",   // Accent 미드 블루
+  mid:      "#3A7FAF",   // Mid 스틸 블루
+  cream:    "#E8E0D0",   // Cream 크림 베이지
+  light:    "#F2EDE4",   // Light 라이트 크림
+  bg:       "#FAF8F4",   // BG 백그라운드
   white:    "#FFFFFF",
-  teal:     "#1D9E75",
-  tealDark: "#0F6E56",
   text:     "#1A1818",
   textSub:  "#6B6863",
   textMuted:"#9E9B95",
@@ -31,7 +31,7 @@ const GlobalStyle = () => (
 
     body {
       font-family: 'Noto Sans KR', sans-serif;
-      background: ${C.cream};
+      background: ${C.bg};
       color: ${C.text};
       -webkit-font-smoothing: antialiased;
     }
@@ -172,13 +172,13 @@ const Hero = () => (
     width: "100vw",
     marginLeft: "calc(50% - 50vw)",
   }}>
-    {/* 컬러풀 파스텔 블롭 배경 */}
+    {/* 블롭 배경 */}
     {[
-      { color: "#F9C6C6", top: "10%", left: "5%",  w: 380, h: 340, delay: "0s"   },
-      { color: "#C8E6C9", top: "5%",  left: "45%", w: 320, h: 290, delay: "4s"   },
-      { color: "#FFF9C4", top: "40%", left: "60%", w: 300, h: 260, delay: "2s"   },
-      { color: "#BBDEFB", top: "50%", left: "10%", w: 260, h: 240, delay: "6s"   },
-      { color: "#E1BEE7", top: "25%", left: "30%", w: 200, h: 180, delay: "3s"   },
+      { color: "#3A7FAF", top: "10%", left: "5%",  w: 380, h: 340, delay: "0s"   },
+      { color: "#1B4F7A", top: "5%",  left: "45%", w: 320, h: 290, delay: "4s"   },
+      { color: "#E8E0D0", top: "40%", left: "60%", w: 300, h: 260, delay: "2s"   },
+      { color: "#3A7FAF", top: "50%", left: "10%", w: 260, h: 240, delay: "6s"   },
+      { color: "#1B4F7A", top: "25%", left: "30%", w: 200, h: 180, delay: "3s"   },
     ].map((b, i) => (
       <div key={i} style={{
         position: "absolute", top: b.top, left: b.left,
@@ -251,7 +251,7 @@ const Hero = () => (
     {/* 하단 페이드 */}
     <div style={{
       position: "absolute", bottom: 0, left: 0, right: 0, height: 100,
-      background: `linear-gradient(to bottom, transparent, ${C.cream})`,
+      background: `linear-gradient(to bottom, transparent, ${C.bg})`,
     }} />
   </section>
 );
@@ -263,7 +263,7 @@ const steps = [
     title: "AI 기반 정밀 역량 매칭",
     desc: "AI가 목표 기업의 공고와 당신의 자소서를 교차 분석하여 핵심 역량을 추출합니다. 이를 바탕으로 현직자 멘토가 당신만을 위한 맞춤형 면접 질문을 설계합니다.",
     reverse: false,
-    accent: "#E8F5EE",
+    accent: "#D6E8F5",
     tag: "Smart Matching",
   },
   {
@@ -271,7 +271,7 @@ const steps = [
     title: "실시간 하이브리드 모의 면접",
     desc: "화상 면접이 진행됩니다. AI는 실시간으로 당신의 발화 속도와 답변 구조를 분석하고, 멘토는 맞은편에서 당신의 태도와 경험의 전달성을 놓치지 않고 체크합니다.",
     reverse: true,
-    accent: "#EEF5FF",
+    accent: "#E0EBF5",
     tag: "Live Session",
   },
   {
@@ -279,7 +279,7 @@ const steps = [
     title: "데이터와 경험이 결합된 진화형 리포트",
     desc: "AI 정량적 평가(말하기 속도, 침묵, 논리성)와 멘토의 경험 기반 코칭이 결합된 1차·2차 리포트를 제공합니다. 당신의 약점을 정확하게 알고 강화할 수 있는 가장 완벽한 피드백을 만나보세요.",
     reverse: false,
-    accent: "#FFF5E8",
+    accent: "#EDE5D8",
     tag: "Dual Report",
   },
 ];
@@ -314,14 +314,14 @@ const ScreenPreview = ({ accent, num }) => (
       </div>
       <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
         <div style={{ flex: 1, background: "rgba(255,255,255,0.06)", borderRadius: 10 }} />
-        <div style={{ height: 30, background: C.teal, borderRadius: 8, opacity: 0.8 }} />
+        <div style={{ height: 30, background: C.mid, borderRadius: 8, opacity: 0.8 }} />
       </div>
     </div>
   </div>
 );
 
 const FeaturesSection = () => (
-  <section style={{ background: C.cream, padding: "100px 5%" }}>
+  <section style={{ background: C.bg, padding: "100px 5%" }}>
       {steps.map((step, i) => (
         <div
           key={i}
@@ -338,7 +338,7 @@ const FeaturesSection = () => (
           <div style={{ flex: 1 }}>
             <span style={{
               fontSize: 11, fontWeight: 700, letterSpacing: "0.18em",
-              color: C.teal, textTransform: "uppercase", display: "block",
+              color: C.mid, textTransform: "uppercase", display: "block",
               marginBottom: 12,
             }}>
               {step.num}
@@ -357,7 +357,7 @@ const FeaturesSection = () => (
             </p>
             <div style={{
               display: "inline-block", marginTop: 28,
-              background: step.accent, color: C.navyMid,
+              background: step.accent, color: C.accent,
               fontSize: 12, fontWeight: 600, padding: "6px 16px",
               borderRadius: 999, letterSpacing: "0.05em",
             }}>
@@ -405,7 +405,7 @@ const MentorCard = ({ mentor }) => {
       background: C.white,
       borderRadius: 16,
       padding: "20px 20px 18px",
-      border: `1px solid ${C.creamDark}`,
+      border: `1px solid ${C.cream}`,
       transition: "transform 0.25s, box-shadow 0.25s",
       cursor: "pointer",
     }}
@@ -441,7 +441,7 @@ const MentorCard = ({ mentor }) => {
         {mentor.tags.map((t, i) => (
           <span key={i} style={{
             fontSize: 11, padding: "3px 10px", borderRadius: 999,
-            background: C.cream, color: C.textSub,
+            background: C.light, color: C.textSub,
           }}>
             #{t}
           </span>
@@ -449,7 +449,7 @@ const MentorCard = ({ mentor }) => {
       </div>
 
       {/* 하단 */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderTop: `1px solid ${C.creamDark}`, paddingTop: 12 }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderTop: `1px solid ${C.cream}`, paddingTop: 12 }}>
         <StarRating val={mentor.rating} />
         <span style={{ fontSize: 12, color: C.textMuted }}>후기 {mentor.reviews}건</span>
       </div>
@@ -461,7 +461,7 @@ const MentorsSection = () => (
   <section style={{ background: C.navy, padding: "100px 5%" }}>
       <div className="fade-up" style={{ textAlign: "center", marginBottom: 56 }}>
         <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.18em",
-          color: C.teal, textTransform: "uppercase", marginBottom: 14 }}>
+          color: C.mid, textTransform: "uppercase", marginBottom: 14 }}>
           지금 당신을 기다리는
         </p>
         <h2 className="section-title" style={{
@@ -486,18 +486,18 @@ const MentorsSection = () => (
       <div className="fade-up" style={{ textAlign: "center", marginTop: 48 }}>
         <Link to="/mentor/search" style={{
           display: "inline-block",
-          background: C.teal, color: C.white,
+          background: C.mid, color: C.white,
           fontSize: 15, fontWeight: 600,
           padding: "14px 40px", borderRadius: 999,
           textDecoration: "none",
           transition: "background 0.2s, transform 0.2s",
         }}
           onMouseEnter={e => {
-            e.currentTarget.style.background = C.tealDark;
+            e.currentTarget.style.background = C.accent;
             e.currentTarget.style.transform = "translateY(-2px)";
           }}
           onMouseLeave={e => {
-            e.currentTarget.style.background = C.teal;
+            e.currentTarget.style.background = C.mid;
             e.currentTarget.style.transform = "translateY(0)";
           }}
         >
@@ -520,7 +520,7 @@ const reviews = [
 const ReviewCard = ({ review }) => (
   <div style={{
     background: C.white, borderRadius: 16, padding: "24px",
-    border: `1px solid ${C.creamDark}`,
+    border: `1px solid ${C.cream}`,
   }}>
     <div style={{ display: "flex", gap: 6, marginBottom: 16 }}>
       {"★★★★★".split("").map((s, i) => (
@@ -530,7 +530,7 @@ const ReviewCard = ({ review }) => (
     <p style={{ fontSize: 14, color: C.text, lineHeight: 1.8, marginBottom: 20, wordBreak: "keep-all" }}>
       {review.text}
     </p>
-    <div style={{ display: "flex", alignItems: "center", gap: 10, borderTop: `1px solid ${C.creamDark}`, paddingTop: 16 }}>
+    <div style={{ display: "flex", alignItems: "center", gap: 10, borderTop: `1px solid ${C.cream}`, paddingTop: 16 }}>
       <div style={{
         width: 36, height: 36, borderRadius: "50%",
         background: review.bg,
@@ -550,7 +550,7 @@ const ReviewCard = ({ review }) => (
 
 const ReviewsAndCTA = () => (
   <section style={{
-    background: C.cream,
+    background: C.bg,
     padding: "100px 5%",
     /* 가로 스크롤 차단 */
     overflow: "hidden",
@@ -566,7 +566,7 @@ const ReviewsAndCTA = () => (
       <div className="fade-up">
         <p style={{
           fontSize: 12, fontWeight: 600, letterSpacing: "0.18em",
-          color: C.teal, textTransform: "uppercase",
+          color: C.mid, textTransform: "uppercase",
           marginBottom: 14,
         }}>
           Real Story
@@ -601,7 +601,7 @@ const ReviewsAndCTA = () => (
               background: C.white,
               borderRadius: 14,
               padding: "18px 20px",
-              border: `1px solid ${C.creamDark}`,
+              border: `1px solid ${C.cream}`,
             }}>
               {/* 별점 */}
               <div style={{ display: "flex", gap: 2, marginBottom: 10 }}>
@@ -641,7 +641,7 @@ const ReviewsAndCTA = () => (
       <div className="fade-up" style={{ display: "flex", flexDirection: "column" }}>
         <p style={{
           fontSize: 12, fontWeight: 600, letterSpacing: "0.18em",
-          color: C.teal, textTransform: "uppercase",
+          color: C.mid, textTransform: "uppercase",
           marginBottom: 14,
         }}>
           Start now
@@ -666,7 +666,7 @@ const ReviewsAndCTA = () => (
             textDecoration: "none",
             transition: "transform 0.2s, background 0.2s",
           }}
-            onMouseEnter={e => { e.currentTarget.style.background = C.navyMid; e.currentTarget.style.transform = "translateY(-2px)"; }}
+            onMouseEnter={e => { e.currentTarget.style.background = C.accent; e.currentTarget.style.transform = "translateY(-2px)"; }}
             onMouseLeave={e => { e.currentTarget.style.background = C.navy; e.currentTarget.style.transform = "translateY(0)"; }}
           >
             면접 참여하러 가기
@@ -696,11 +696,11 @@ const ReviewsAndCTA = () => (
         }}>
           {[
             {
-              bg: "#F9C6C6",
+              bg: "#D6E8F5",
               text: "혼자 하는 면접 연습, 계속 같은 실수를 반복하고 있는 건 아닌가요?",
             },
             {
-              bg: "#C8E6C9",
+              bg: "#E8E0D0",
               text: "데이터 위에 현직자의 경험을 입혀드립니다.",
             },
           ].map((card, i) => (
