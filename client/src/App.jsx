@@ -16,6 +16,8 @@ import ReportWaitingPage from './pages/Report/ReportWaiting'
 import MentorFeedbackPage from './pages/Report/MentorFeedback'
 import FinalReportPage from './pages/Report/FinalReport'
 import MyPage from './pages/MyPage'
+import MentorMyPage from './pages/MyPage/MentorMypage'
+import MenteeMyPage from './pages/MyPage/MenteeMypage'
 
 export default function App() {
   return (
@@ -39,7 +41,8 @@ export default function App() {
       <Route path="/report/ai-stream/:sessionId" element={<ReportWaitingPage />} />
       <Route path="/mentor/feedback/:sessionId" element={<MentorFeedbackPage />} />
       <Route path="/report/final" element={<FinalReportPage />} />
-      <Route path="/mypage" element={<MyPage />} />
+      <Route path="/mentor/mypage"  element={<MentorMyPage />} />
+      <Route path="/mentee/mypage"  element={<MenteeMyPage />} /> 
       
     </Routes>
   )

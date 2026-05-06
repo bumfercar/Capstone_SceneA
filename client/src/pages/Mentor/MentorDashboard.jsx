@@ -89,7 +89,7 @@ const Header = ({ userName }) => {
         </Link>
         <div style={{ display:"flex", alignItems:"center", gap:24 }}>
           {["멘토 탐색", "예약 확인", "MyPage"].map((label, i) => (
-            <Link key={i} to={["#", "#", "#"][i]} style={{
+            <Link key={i} to={["#", "#", "/mentor/mypage"][i]} style={{
               fontSize:14, fontWeight: label==="MyPage" ? 700 : 400,
               color: C.white, textDecoration:"none",
               opacity: 0.85, transition:"opacity 0.15s",
