@@ -6,11 +6,11 @@ import { Link, useNavigate } from "react-router-dom";
    ============================================================ */
 
 const C = {
-  navy:"#0D2244", navyMid:"#1A3660",
-  cream:"#F2F0EB", creamDark:"#E8E5DE",
+  navy:"#0D2240", navyMid:"#1B4F7A",
+  cream:"#F2EDE4", creamDark:"#E8E0D0",
   white:"#FFFFFF", teal:"#1D9E75", tealLight:"#E8F5EE",
   text:"#1A1818", textSub:"#6B6863", textMuted:"#9E9B95",
-  border:"#E2DED8", bg:"#F0EEE9",
+  border:"#E8E0D0", bg:"#FAF8F4",
   orange:"#F59E0B", orangeLight:"#FEF3C7",
   red:"#EF4444", redLight:"#FEF2F2",
 };
@@ -122,7 +122,7 @@ export default function MentorMyPage() {
   ];
 
   const reviews = [
-    { initials:"김M", name:"김민준", role:"백엔드", company:"카카오 지원", stars:5, bgColor:"#1A3660",
+    { initials:"김M", name:"김민준", role:"백엔드", company:"카카오 지원", stars:5, bgColor:"#1B4F7A",
       text:"실제 현장에서 어떤 답변을 원하는지 구체적으로 알려주셔서 너무 좋았어요. STAR 구조 피드백 덕분에 다음 면접에서 훨씬 자신감 있게 답변할 수 있었습니다!" },
     { initials:"박S", name:"박서연", role:"프론트엔드", company:"네이버 지원", stars:4, bgColor:"#0F6E56",
       text:"AI 리포트로 제 약점을 정확히 파악하고, 멘토님이 그 부분을 집중 코칭해주셔서 단기간에 많이 성장한 느낌이에요. 강력 추천합니다." },
@@ -174,7 +174,7 @@ export default function MentorMyPage() {
               <div style={{ textAlign:"center", marginBottom:16 }}>
                 <div style={{
                   width:68, height:68, borderRadius:"50%",
-                  background:"#1A3660", margin:"0 auto 10px",
+                  background:"#1B4F7A", margin:"0 auto 10px",
                   display:"flex", alignItems:"center", justifyContent:"center",
                   fontSize:22, fontWeight:700, color:C.white,
                 }}>이J</div>

@@ -7,12 +7,12 @@ import { Link, useNavigate } from "react-router-dom";
    ============================================================ */
 
 const C = {
-  navy:"#0D2244", navyMid:"#1A3660",
-  cream:"#F2F0EB", creamDark:"#E8E5DE",
+  navy:"#0D2240", navyMid:"#1B4F7A",
+  cream:"#F2EDE4", creamDark:"#E8E0D0",
   white:"#FFFFFF", teal:"#1D9E75",
   text:"#1A1818", textSub:"#6B6863",
-  textMuted:"#9E9B95", border:"#E2DED8",
-  bg:"#F0EEE9",
+  textMuted:"#9E9B95", border:"#E8E0D0",
+  bg:"#FAF8F4",
 };
 
 /* ── 로고 ── */

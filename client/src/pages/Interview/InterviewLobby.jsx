@@ -62,7 +62,7 @@ export default function InterviewRobby({ role = "mentee" }) {
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
         html,body{height:100%;margin:0;overflow:hidden}
         #root{height:100%;width:100%;max-width:100%;margin:0;min-height:0;display:block;text-align:left}
-        body{font-family:'Noto Sans KR',sans-serif;background:#F2F0EB;color:white}
+        body{font-family:'Noto Sans KR',sans-serif;background:#F2EDE4;color:white}
         @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
         @keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
         @media(max-width:820px){.ready-layout{flex-direction:column!important}.ready-left,.ready-right{width:100%!important}}
@@ -70,7 +70,7 @@ export default function InterviewRobby({ role = "mentee" }) {
 
       <div style={{
         width:"100%", height:"100vh",
-        background:"#F2F0EB",
+        background:"#F2EDE4",
         display:"flex", flexDirection:"column",
         alignItems:"stretch",
         padding:"32px",
@@ -80,7 +80,7 @@ export default function InterviewRobby({ role = "mentee" }) {
           display:"flex", gap:0,
           width:"100%", height:"100%",
           borderRadius:20, overflow:"hidden",
-          background:"#0D2244",
+          background:"#0D2240",
           boxShadow:"0 24px 64px rgba(13,34,68,0.25)",
         }}>
 
@@ -176,7 +176,7 @@ export default function InterviewRobby({ role = "mentee" }) {
           {/* ════ 오른쪽: 브리핑 ════ */}
           <div className="ready-right" style={{
             width:420, flexShrink:0,
-            background:"#0D2244",
+            background:"#0D2240",
             padding:"36px 32px",
             display:"flex", flexDirection:"column", gap:20,
             borderLeft:"1px solid rgba(255,255,255,0.08)",
@@ -203,7 +203,7 @@ export default function InterviewRobby({ role = "mentee" }) {
               <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:10 }}>
                 <div style={{
                   width:36, height:36, borderRadius:"50%",
-                  background: isMentor ? "#1A3660" : "#0F6E56",
+                  background: isMentor ? "#1B4F7A" : "#0F6E56",
                   display:"flex", alignItems:"center", justifyContent:"center",
                   fontSize:13, fontWeight:700, color:"#fff", flexShrink:0,
                 }}>
@@ -263,15 +263,15 @@ export default function InterviewRobby({ role = "mentee" }) {
             {/* 입장 버튼 */}
             <button onClick={handleEnter} style={{
               width:"100%", padding:"16px",
-              background:"#F2F0EB", color:"#0D2244",
+              background:"#F2EDE4", color:"#0D2240",
               border:"none", borderRadius:12,
               fontSize:16, fontWeight:700,
               cursor:"pointer",
               fontFamily:"inherit", transition:"background 0.2s",
               letterSpacing:"0.02em",
             }}
-              onMouseEnter={e=>e.currentTarget.style.background="#E8E5DE"}
-              onMouseLeave={e=>e.currentTarget.style.background="#F2F0EB"}
+              onMouseEnter={e=>e.currentTarget.style.background="#E8E0D0"}
+              onMouseLeave={e=>e.currentTarget.style.background="#F2EDE4"}
             >
               입장하기
             </button>

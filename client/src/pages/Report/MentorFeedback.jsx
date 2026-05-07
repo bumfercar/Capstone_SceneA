@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 // ─── 상수 ────────────────────────────────────────────────────────
 const NAVY = "#0D2240";
 const GREEN = "#1D9E75";
-const BG = "#F0EFEB";
+const BG = "#FAF8F4";
 
 // ─── 더미 데이터 (실제 연동 시 API로 교체) ─────────────────────
 const MOCK_SESSION = {

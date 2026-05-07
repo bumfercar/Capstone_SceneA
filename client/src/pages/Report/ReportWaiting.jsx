@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const NAVY = "#0D2240";
 const GREEN = "#1D9E75";
-const BG = "#F0EFEB";
+const BG = "#FAF8F4";
 
 const steps = [
   "멘토가 세션 피드백을 작성 중입니다...",

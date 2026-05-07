@@ -3,7 +3,7 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 
 const NAVY = "#0D2240";
 const GREEN = "#1D9E75";
-const BG = "#F0EFEB";
+const BG = "#FAF8F4";
 const CARD = "#FFFFFF";
 
 // ─── Loading Screen ──────────────────────────────────────────────
@@ -256,7 +256,7 @@ function MenteeReport({ sessionId }) {
             <div key={i} style={{ background: CARD, border: `1px solid ${qa.bad ? "#FED7D7" : "#E8E5DF"}`, borderRadius: 14, padding: 20 }}>
               <p style={{ fontSize: 13, fontWeight: 700, color: NAVY, marginBottom: 12 }}>{qa.q}</p>
               <StarText text={qa.text} highlights={qa.highlights} />
-              {qa.note && <span style={{ fontSize: 11, color: "#666", background: "#F0EFEB", padding: "2px 8px", borderRadius: 99, marginLeft: 6 }}>{qa.note}</span>}
+              {qa.note && <span style={{ fontSize: 11, color: "#666", background: "#FAF8F4", padding: "2px 8px", borderRadius: 99, marginLeft: 6 }}>{qa.note}</span>}
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 14 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                   <Stars score={qa.score} />
@@ -396,7 +396,7 @@ function exportWord(role) {
 
   const html = `<!DOCTYPE html><html><head><meta charset="utf-8">
   <style>
-    body { font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif; max-width: 860px; margin: 40px auto; color: #111; line-height: 1.8; background: #F0EFEB; }
+    body { font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif; max-width: 860px; margin: 40px auto; color: #111; line-height: 1.8; background: #FAF8F4; }
     button { display: none !important; }
     svg { display: none !important; }
   </style>

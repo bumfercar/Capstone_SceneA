@@ -8,7 +8,7 @@ export default function MyPage() {
 
   useEffect(() => {
     navigate(
-      user?.role === "mentor" ? "/dashboard/mentor" : "/dashboard/mentee",
+      user?.role === "mentor" ? "/mentor/mypage" : "/mentee/mypage",
       { replace: true }
     );
   }, [user, navigate]);

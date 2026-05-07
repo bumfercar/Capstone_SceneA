@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 // ─── 상수 ────────────────────────────────────────────────────────
 const NAVY = "#0D2240";
 const GREEN = "#1D9E75";
-const BG = "#F0EFEB";
+const BG = "#FAF8F4";
 
 // ─── 유틸 ────────────────────────────────────────────────────────
 function Stars({ score, size = 14, color = "#F59E0B" }) {
@@ -86,7 +86,7 @@ function exportToPDF(reportData) {
 
   const html = `<!DOCTYPE html><html><head><meta charset="utf-8">
   <style>
-    body { font-family: 'Malgun Gothic', 'Noto Sans KR', sans-serif; max-width: 860px; margin: 40px auto; color: #111; line-height: 1.8; background: #F0EFEB; }
+    body { font-family: 'Malgun Gothic', 'Noto Sans KR', sans-serif; max-width: 860px; margin: 40px auto; color: #111; line-height: 1.8; background: #FAF8F4; }
     button { display: none !important; }
     svg { display: none !important; }
   </style>
@@ -593,7 +593,7 @@ export default function FinalReportPage() {
                   justifyContent: "space-between",
                   alignItems: "center",
                   paddingTop: 12,
-                  borderTop: "1px solid #F0EFEB",
+                  borderTop: "1px solid #FAF8F4",
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -850,7 +850,7 @@ export default function FinalReportPage() {
             <div
               style={{
                 marginTop: 16,
-                background: "#F0EFEB",
+                background: "#FAF8F4",
                 borderRadius: 8,
                 padding: "10px 14px",
                 fontSize: 12,

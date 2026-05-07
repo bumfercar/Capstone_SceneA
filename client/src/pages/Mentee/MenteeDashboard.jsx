@@ -7,18 +7,18 @@ import { clearAuthUser } from "../../store/authStore";
    ============================================================ */
 
 const C = {
-  navy:      "#0D2244",
-  navyMid:   "#1A3660",
-  cream:     "#F2F0EB",
-  creamDark: "#E8E5DE",
+  navy:      "#0D2240",
+  navyMid:   "#1B4F7A",
+  cream:     "#F2EDE4",
+  creamDark: "#E8E0D0",
   white:     "#FFFFFF",
   teal:      "#1D9E75",
   tealLight: "#E8F5EE",
   text:      "#1A1818",
   textSub:   "#6B6863",
   textMuted: "#9E9B95",
-  border:    "#E2DED8",
-  bg:        "#F0EEE9",
+  border:    "#E8E0D0",
+  bg:        "#FAF8F4",
 };
 
 /* ── 로고 ── */
@@ -62,8 +62,8 @@ const Header = ({ userName }) => {
   const navigate = useNavigate();
   const handleLogout = () => { clearAuthUser(); navigate("/"); };
   return (
-    <header style={{ background:C.navy, padding:"0 32px", position:"sticky", top:0, zIndex:100 }}>
-      <nav style={{ display:"flex", alignItems:"center", justifyContent:"space-between", height:64 }}>
+    <header style={{ background:C.navy, padding:"0 5%", position:"sticky", top:0, zIndex:100 }}>
+      <nav style={{ maxWidth:1200, margin:"0 auto", display:"flex", alignItems:"center", justifyContent:"space-between", height:64 }}>
         <span style={{ fontSize:15, fontWeight:600, color:C.white }}>
           안녕하세요 <span style={{ color:"rgba(255,255,255,0.75)" }}>{userName}</span>님
         </span>
@@ -284,7 +284,7 @@ export default function MenteeDashboard() {
       `}</style>
 
       <Header userName={userName}/>
-      <main style={{ padding:"36px 32px 60px" }}>
+      <main style={{ maxWidth:1100, margin:"0 auto", padding:"36px 5% 60px" }}>
 
         {/* ── 상단 배너 카드 (멘토 찾기 CTA) ── */}
         <div style={{

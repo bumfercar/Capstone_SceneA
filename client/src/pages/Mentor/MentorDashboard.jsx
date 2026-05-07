@@ -7,17 +7,17 @@ import { clearAuthUser } from "../../store/authStore";
    ============================================================ */
 
 const C = {
-  navy:      "#0D2244",
-  navyMid:   "#1A3660",
-  cream:     "#F2F0EB",
-  creamDark: "#E8E5DE",
+  navy:      "#0D2240",
+  navyMid:   "#1B4F7A",
+  cream:     "#F2EDE4",
+  creamDark: "#E8E0D0",
   white:     "#FFFFFF",
   teal:      "#1D9E75",
   text:      "#1A1818",
   textSub:   "#6B6863",
   textMuted: "#9E9B95",
-  border:    "#E2DED8",
-  bg:        "#F0EEE9",
+  border:    "#E8E0D0",
+  bg:        "#FAF8F4",
 };
 
 /* ── 로고 ── */
@@ -303,7 +303,7 @@ export default function MentorDashboard() {
   ];
 
   const [requests, setRequests] = useState([
-    { id:1, name:"김민준", company:"카카오 백엔드 개발자 지원", message:"안녕하세요. 카카오 공채를 준비 중인 취준생입니다. Java/Spring 기반 백엔드 면접에 특히 약점이 있어 선생님의 도움이 필요합니다.", avatarColor:"#1A3660" },
+    { id:1, name:"김민준", company:"카카오 백엔드 개발자 지원", message:"안녕하세요. 카카오 공채를 준비 중인 취준생입니다. Java/Spring 기반 백엔드 면접에 특히 약점이 있어 선생님의 도움이 필요합니다.", avatarColor:"#1B4F7A" },
     { id:2, name:"이수현", company:"네이버 프론트엔드 지원", message:"React와 성능 최적화 관련 기술 면접을 앞두고 있어 코칭을 요청드립니다. 잘 부탁드립니다!", avatarColor:"#0F6E56" },
   ]);
 

@@ -397,7 +397,7 @@ const StarRating = ({ val }) => (
 );
 
 const MentorCard = ({ mentor }) => {
-  const colors = ["#1A3660","#0F6E56","#533BA0","#8B4513","#1A5276","#145A32"];
+  const colors = ["#1B4F7A","#0F6E56","#533BA0","#8B4513","#1A5276","#145A32"];
   const bg = colors[mentors.indexOf(mentor) % colors.length];
 
   return (
@@ -509,7 +509,7 @@ const MentorsSection = () => (
 
 /* ── 멘티 후기 섹션 ── */
 const reviews = [
-  { initials: "김M", name: "김민준", bg: "#1A3660", company: "카카오 백엔드 개발자 지원", stars: 5,
+  { initials: "김M", name: "김민준", bg: "#1B4F7A", company: "카카오 백엔드 개발자 지원", stars: 5,
     text: "실제 현장에서 어떤 답변을 원하는지 구체적으로 알려주셔서 너무 좋았어요. STAR 구조 피드백 덕분에 다음 면접에서 훨씬 자신감 있게 답변할 수 있었습니다!" },
   { initials: "박S", name: "박서연", bg: "#0F6E56", company: "네이버 프론트엔드 지원", stars: 4,
     text: "AI 리포트로 제 약점을 정확히 파악하고, 멘토님이 그 부분을 집중 코칭해주셔서 단기간에 많이 성장한 느낌이에요. 강력 추천합니다." },

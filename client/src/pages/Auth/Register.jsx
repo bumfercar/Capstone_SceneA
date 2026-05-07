@@ -7,17 +7,17 @@ import { Link, useNavigate } from "react-router-dom";
    ============================================================ */
 
 const C = {
-  navy:      "#0D2244",
-  navyMid:   "#1A3660",
-  cream:     "#F2F0EB",
-  creamDark: "#E8E5DE",
+  navy:      "#0D2240",
+  navyMid:   "#1B4F7A",
+  cream:     "#F2EDE4",
+  creamDark: "#E8E0D0",
   white:     "#FFFFFF",
   teal:      "#1D9E75",
   text:      "#1A1818",
   textSub:   "#6B6863",
   textMuted: "#9E9B95",
-  border:    "#DDD9D2",
-  inputBg:   "#ECEAE4",
+  border:    "#E8E0D0",
+  inputBg:   "#F2EDE4",
   error:     "#D94040",
   errorBg:   "#FCF0F0",
 };
@@ -119,7 +119,7 @@ const PwStrength = ({ pw }) => {
   ];
   const score = checks.filter(Boolean).length;
   const labels = ["", "약함", "보통", "좋음", "강함"];
-  const colors = ["#E8E5DE","#EF4444","#F59E0B","#1D9E75","#0F6E56"];
+  const colors = ["#E8E0D0","#EF4444","#F59E0B","#1D9E75","#0F6E56"];
   if (!pw) return null;
   return (
     <div style={{ marginTop:-4 }}>
@@ -539,7 +539,7 @@ export default function Register() {
 
         input:-webkit-autofill,
         input:-webkit-autofill:focus {
-          -webkit-box-shadow: 0 0 0 1000px #ECEAE4 inset !important;
+          -webkit-box-shadow: 0 0 0 1000px #F2EDE4 inset !important;
           -webkit-text-fill-color: #1A1818 !important;
         }
 
@@ -602,7 +602,7 @@ export default function Register() {
         }}>
           {/* 블롭 */}
           {[
-            { bg:"#1A3660", top:"8%",  left:"50%", w:280, h:260, op:0.28 },
+            { bg:"#1B4F7A", top:"8%",  left:"50%", w:280, h:260, op:0.28 },
             { bg:"#1D9E75", top:"60%", left:"5%",  w:230, h:210, op:0.14 },
             { bg:"#2B4A8A", top:"38%", left:"28%", w:190, h:170, op:0.22 },
           ].map((b,i) => (

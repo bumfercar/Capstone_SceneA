@@ -6,12 +6,12 @@ import { Link, useNavigate } from "react-router-dom";
    ============================================================ */
 
 const C = {
-  navy:"#0D2244", navyMid:"#1A3660",
-  cream:"#F2F0EB", creamDark:"#E8E5DE",
+  navy:"#0D2240", navyMid:"#1B4F7A",
+  cream:"#F2EDE4", creamDark:"#E8E0D0",
   white:"#FFFFFF", teal:"#1D9E75",
   text:"#1A1818", textSub:"#6B6863",
-  textMuted:"#9E9B95", border:"#E2DED8",
-  bg:"#F0EEE9",
+  textMuted:"#9E9B95", border:"#E8E0D0",
+  bg:"#FAF8F4",
 };
 
 const LogoIcon = ({ size=26, color=C.white }) => (
@@ -34,7 +34,7 @@ const Header = () => (
       <span style={{ fontSize:15, fontWeight:600, color:C.white }}>안녕하세요 <span style={{ color:"rgba(255,255,255,0.75)" }}>김민준</span>님</span>
       <Link to="/" style={{ textDecoration:"none" }}><LogoIcon size={28}/></Link>
       <div style={{ display:"flex", gap:32 }}>
-        {[{l:"멘토 탐색",to:"/mentor/search",active:true},{l:"예약 확인",to:"#"},{l:"MyPage",to:"#"}].map((x,i)=>(
+        {[{l:"대시보드",to:"/dashboard/mentee"},{l:"멘토 탐색",to:"/mentor/search",active:true},{l:"예약 확인",to:"#"},{l:"MyPage",to:"/mentee/mypage"}].map((x,i)=>(
           <Link key={i} to={x.to} style={{
             fontSize:14, fontWeight:x.active||x.l==="MyPage"?700:400,
             color:C.white, textDecoration:"none", opacity:x.active?1:0.85,
@@ -47,7 +47,7 @@ const Header = () => (
 );
 
 const MENTORS = [
-  { id:1, name:"박지훈", company:"네이버", job:"백엔드 개발", years:6, tags:["기술 면접","JAVA/Spring","대규모 보안 처리 경험"], rating:4.9, reviews:42, point:50, available:"4/3(4)", jobCat:"백엔드", careerR:"5년 이상", sessType:"1:1", ac:"#1A3660" },
+  { id:1, name:"박지훈", company:"네이버", job:"백엔드 개발", years:6, tags:["기술 면접","JAVA/Spring","대규모 보안 처리 경험"], rating:4.9, reviews:42, point:50, available:"4/3(4)", jobCat:"백엔드", careerR:"5년 이상", sessType:"1:1", ac:"#1B4F7A" },
   { id:2, name:"이수연", company:"카카오", job:"프론트엔드 개발", years:5, tags:["기술 면접","React","성능 최적화"], rating:4.8, reviews:38, point:45, available:"4/5(6)", jobCat:"프론트엔드", careerR:"3-5년", sessType:"1:1", ac:"#0F6E56" },
   { id:3, name:"최현아", company:"라인", job:"풀스택 개발", years:4, tags:["포트폴리오 리뷰","TypeScript","DevOps"], rating:4.7, reviews:29, point:30, available:"4/4(토)", jobCat:"풀스택", careerR:"3-5년", sessType:"그룹", ac:"#533BA0" },
   { id:4, name:"김도현", company:"쿠팡", job:"데이터 엔지니어", years:7, tags:["기술 면접","Python","데이터 파이프라인"], rating:5.0, reviews:55, point:60, available:"4/6(일)", jobCat:"데이터", careerR:"5년 이상", sessType:"1:1", ac:"#8B4513" },

@@ -6,11 +6,11 @@ import { Link, useNavigate } from "react-router-dom";
    ============================================================ */
 
 const C = {
-  navy:"#0D2244", navyMid:"#1A3660",
-  cream:"#F2F0EB", creamDark:"#E8E5DE",
+  navy:"#0D2240", navyMid:"#1B4F7A",
+  cream:"#F2EDE4", creamDark:"#E8E0D0",
   white:"#FFFFFF", teal:"#1D9E75", tealLight:"#E8F5EE",
   text:"#1A1818", textSub:"#6B6863", textMuted:"#9E9B95",
-  border:"#E2DED8", bg:"#F0EEE9",
+  border:"#E8E0D0", bg:"#FAF8F4",
   orange:"#F59E0B", red:"#EF4444",
 };
 
@@ -35,7 +35,7 @@ const Header = () => (
       <span style={{ fontSize:15, fontWeight:600, color:C.white }}>안녕하세요 <span style={{ color:"rgba(255,255,255,0.75)" }}>김민준</span>님</span>
       <Link to="/" style={{ textDecoration:"none" }}><LogoIcon size={28}/></Link>
       <div style={{ display:"flex", gap:32 }}>
-        {[{l:"멘토 탐색",to:"/mentor/search"},{l:"예약 확인",to:"#"},{l:"MyPage",to:"#",bold:true}].map((x,i)=>(
+        {[{l:"대시보드",to:"/dashboard/mentee"},{l:"멘토 탐색",to:"/mentor/search"},{l:"예약 확인",to:"#"},{l:"MyPage",to:"/mentee/mypage",bold:true}].map((x,i)=>(
           <Link key={i} to={x.to} style={{ fontSize:14, fontWeight:x.bold?700:400, color:C.white, textDecoration:"none", opacity:x.bold?1:0.85 }}
             onMouseEnter={e=>e.currentTarget.style.opacity=1} onMouseLeave={e=>e.currentTarget.style.opacity=x.bold?1:0.85}>{x.l}</Link>
         ))}
@@ -201,7 +201,7 @@ export default function MenteeMyPage() {
   ];
 
   const comments = [
-    { initials:"박J", name:"박지훈 멘토", bg:"#1A3660", date:"04.02",
+    { initials:"박J", name:"박지훈 멘토", bg:"#1B4F7A", date:"04.02",
       session:"5회차 · 백엔드 개발자 모의 면접",
       text:"수치 기반 답변이 훨씬 자연스러워졌어요. 이제 MSA처럼 경험 없는 영역은 학습 의지를 보여주는 방향으로 연습하면 다음 면접 충분히 통과할 수 있을 것 같아요." },
     { initials:"이S", name:"이수연 멘토", bg:"#0F6E56", date:"03.20",

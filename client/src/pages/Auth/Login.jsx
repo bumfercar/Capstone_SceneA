@@ -8,17 +8,17 @@ import { setAuthUser } from "../../store/authStore";
    ============================================================ */
 
 const C = {
-  navy:     "#0D2244",
-  navyMid:  "#1A3660",
-  cream:    "#F2F0EB",
-  creamDark:"#E8E5DE",
+  navy:     "#0D2240",
+  navyMid:  "#1B4F7A",
+  cream:    "#F2EDE4",
+  creamDark:"#E8E0D0",
   white:    "#FFFFFF",
   teal:     "#1D9E75",
   text:     "#1A1818",
   textSub:  "#6B6863",
   textMuted:"#9E9B95",
-  border:   "#DDD9D2",
-  inputBg:  "#ECEAE4",
+  border:   "#E8E0D0",
+  inputBg:  "#F2EDE4",
   error:    "#D94040",
 };
 
@@ -142,7 +142,7 @@ export default function Login() {
         /* 인풋 자동완성 배경 제거 */
         input:-webkit-autofill,
         input:-webkit-autofill:focus {
-          -webkit-box-shadow: 0 0 0 1000px #ECEAE4 inset !important;
+          -webkit-box-shadow: 0 0 0 1000px #F2EDE4 inset !important;
           -webkit-text-fill-color: #1A1818 !important;
         }
 
@@ -151,7 +151,7 @@ export default function Login() {
           display: flex; align-items: center; justify-content: center;
           gap: 8px; padding: 12px 0;
           background: #FFFFFF;
-          border: 1px solid #DDD9D2;
+          border: 1px solid #E8E0D0;
           border-radius: 12px;
           cursor: pointer;
           font-family: 'Noto Sans KR', sans-serif;
@@ -169,7 +169,7 @@ export default function Login() {
         .login-btn {
           width: 100%;
           padding: 15px;
-          background: #0D2244;
+          background: #0D2240;
           color: #fff;
           font-family: 'Noto Sans KR', sans-serif;
           font-size: 15px; font-weight: 700;
@@ -179,7 +179,7 @@ export default function Login() {
           transition: background 0.2s, transform 0.15s;
         }
         .login-btn:hover:not(:disabled) {
-          background: #1A3660;
+          background: #1B4F7A;
           transform: translateY(-1px);
         }
         .login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
@@ -218,7 +218,7 @@ export default function Login() {
         }}>
           {/* 배경 블롭 */}
           {[
-            { bg:"#1A3660", top:"5%",  left:"55%", w:260, h:240, delay:"0s"  },
+            { bg:"#1B4F7A", top:"5%",  left:"55%", w:260, h:240, delay:"0s"  },
             { bg:"#1D9E75", top:"55%", left:"5%",  w:220, h:200, delay:"4s", opacity:0.12 },
             { bg:"#2B4A8A", top:"35%", left:"30%", w:180, h:160, delay:"2s"  },
           ].map((b, i) => (

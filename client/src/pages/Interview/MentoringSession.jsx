@@ -370,7 +370,7 @@ function SharedReport({ report }) {
                 key={qna.id}
                 style={{
                   padding: "12px 0",
-                  borderBottom: "1px solid #F0EFEB",
+                  borderBottom: "1px solid #FAF8F4",
                 }}
               >
                 <div

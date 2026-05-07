@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 const C = {
-  navy:"#0D2244",navyMid:"#1A3660",cream:"#F2F0EB",creamDark:"#E8E5DE",
+  navy:"#0D2240",navyMid:"#1B4F7A",cream:"#F2EDE4",creamDark:"#E8E0D0",
   white:"#FFFFFF",teal:"#1D9E75",text:"#1A1818",textSub:"#6B6863",
-  textMuted:"#9E9B95",border:"#E2DED8",bg:"#F0EEE9",
+  textMuted:"#9E9B95",border:"#E8E0D0",bg:"#FAF8F4",
 };
 
 const LogoIcon=({size=26,color=C.white})=>(
@@ -33,7 +33,7 @@ const Header=()=>(
 const MENTOR={
   id:1,name:"박지훈",company:"네이버",job:"백엔드 개발",years:6,
   tags:["기술 면접","JAVA/Spring","대규모 보안 처리 경험"],
-  avatarColor:"#1A3660",
+  avatarColor:"#1B4F7A",
   philosophy:'"단순한 정답 공유가 아닌, 현업에서 통하는 사고방식을 길러드립니다. AI 리포트의 수치를 토대로 논리적 결함을 함께 찾아봐요."',
   career:["현) 네이버 서치 CIC / 시니어 백엔드 엔지니어 (6년차)","전) 카카오페이 결제 시스템 개발팀","전) 쿠팡 정산 플랫폼 파트"],
   techStack:"백엔드 개발 (Java, Spring Boot, MSA, MySQL)",

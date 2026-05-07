@@ -42,7 +42,7 @@ export default function InterviewSession({ role = "mentee" }) {
   /* ── 더미 참가자 ── */
   const isMentor = role === "mentor";
   const participants = [
-    { name:"김민준", muted:true,  color:"#1A3660", speaking:false },
+    { name:"김민준", muted:true,  color:"#1B4F7A", speaking:false },
     { name:"이지원", muted:false, color:"#533BA0", speaking:true  },
     { name:"박현우", muted:false, color:"#0F6E56", speaking:false },
     { name:"최유나", muted:true,  color:"#8B4513", speaking:false },
@@ -151,7 +151,7 @@ export default function InterviewSession({ role = "mentee" }) {
           }}>
             <div style={{
               width:32, height:32, borderRadius:"50%",
-              background:"#1A3660", overflow:"hidden",
+              background:"#1B4F7A", overflow:"hidden",
               display:"flex", alignItems:"center", justifyContent:"center",
               fontSize:12, fontWeight:700, color:"#fff",
             }}>박</div>
@@ -184,7 +184,7 @@ export default function InterviewSession({ role = "mentee" }) {
                 <div style={{ textAlign:"center" }}>
                   <div style={{
                     width:100, height:100, borderRadius:"50%",
-                    background:"#1A3660", margin:"0 auto 16px",
+                    background:"#1B4F7A", margin:"0 auto 16px",
                     display:"flex", alignItems:"center", justifyContent:"center",
                     fontSize:32, fontWeight:700, color:"#fff",
                   }}>박</div>
