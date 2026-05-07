@@ -1,0 +1,417 @@
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { clearAuthUser } from "../../store/authStore";
+
+/* ============================================================
+   멘토 대시보드  (pages/Dashboard/MentorDashboard.jsx)
+   ============================================================ */
+
+const C = {
+  navy:      "#0D2240",
+  navyMid:   "#1B4F7A",
+  cream:     "#F2EDE4",
+  creamDark: "#E8E0D0",
+  white:     "#FFFFFF",
+  teal:      "#1D9E75",
+  text:      "#1A1818",
+  textSub:   "#6B6863",
+  textMuted: "#9E9B95",
+  border:    "#E8E0D0",
+  bg:        "#FAF8F4",
+};
+
+/* ── 로고 ── */
+const LogoIcon = ({ size = 26, color = C.white }) => (
+  <svg width={size} height={size} viewBox="0 0 28 28" fill="none">
+    <circle cx="14" cy="14" r="2" fill={color}/>
+    {[0,45,90,135,180,225,270,315].map((deg, i) => {
+      const r = deg * Math.PI / 180;
+      return <line key={i}
+        x1={14+2.5*Math.cos(r)} y1={14+2.5*Math.sin(r)}
+        x2={14+10 *Math.cos(r)} y2={14+10 *Math.sin(r)}
+        stroke={color} strokeWidth="1.5" strokeLinecap="round"/>;
+    })}
+    {[0,90,180,270].map((deg, i) => {
+      const r=deg*Math.PI/180, mx=14+7*Math.cos(r), my=14+7*Math.sin(r), o=r+Math.PI/2;
+      return <g key={i}>
+        <line x1={mx} y1={my} x2={mx+3*Math.cos(o)} y2={my+3*Math.sin(o)} stroke={color} strokeWidth="1.2" strokeLinecap="round"/>
+        <line x1={mx} y1={my} x2={mx-3*Math.cos(o)} y2={my-3*Math.sin(o)} stroke={color} strokeWidth="1.2" strokeLinecap="round"/>
+      </g>;
+    })}
+  </svg>
+);
+
+/* ── 섹션 헤더 아이콘 ── */
+const SectionIcon = () => (
+  <div style={{
+    width:36, height:36, borderRadius:"50%",
+    border:`1.5px solid ${C.border}`,
+    display:"flex", alignItems:"center", justifyContent:"center",
+    flexShrink:0,
+  }}>
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <circle cx="8" cy="8" r="2.5" stroke={C.teal} strokeWidth="1.5"/>
+      <path d="M8 2v1.5M8 12.5V14M2 8h1.5M12.5 8H14" stroke={C.teal} strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M3.76 3.76l1.06 1.06M11.18 11.18l1.06 1.06M11.18 4.82l-1.06 1.06M4.82 11.18l-1.06 1.06" stroke={C.teal} strokeWidth="1.2" strokeLinecap="round"/>
+    </svg>
+  </div>
+);
+
+/* ── 따옴표 아이콘 ── */
+const QuoteIcon = () => (
+  <svg width="28" height="20" viewBox="0 0 28 20" fill="none">
+    <path d="M0 20V12C0 5.373 4.48 1.28 13.44 0l1.12 2.08C10.293 3.12 8 5.653 8 9.6V11h5V20H0zm15 0V12C15 5.373 19.48 1.28 28.44 0l1.12 2.08C25.293 3.12 23 5.653 23 9.6V11h5V20H15z" fill={C.border}/>
+  </svg>
+);
+
+/* ── 헤더 ── */
+const Header = ({ userName }) => {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    clearAuthUser();
+    navigate("/");
+  };
+  return (
+    <header style={{
+      background: C.navy, padding:"0 5%",
+      position:"sticky", top:0, zIndex:100,
+    }}>
+      <nav style={{
+        maxWidth:1200, margin:"0 auto",
+        display:"flex", alignItems:"center",
+        justifyContent:"space-between", height:64,
+      }}>
+        <span style={{ fontSize:15, fontWeight:600, color:C.white }}>
+          안녕하세요 <span style={{ color:"rgba(255,255,255,0.75)" }}>{userName}</span>님
+        </span>
+        <Link to="/" style={{ textDecoration:"none" }}>
+          <LogoIcon size={28} color={C.white}/>
+        </Link>
+        <div style={{ display:"flex", alignItems:"center", gap:24 }}>
+          {["멘토 탐색", "예약 확인", "MyPage"].map((label, i) => (
+            <Link key={i} to={["#", "#", "/mentor/mypage"][i]} style={{
+              fontSize:14, fontWeight: label==="MyPage" ? 700 : 400,
+              color: C.white, textDecoration:"none",
+              opacity: 0.85, transition:"opacity 0.15s",
+            }}
+              onMouseEnter={e => e.target.style.opacity=1}
+              onMouseLeave={e => e.target.style.opacity=0.85}
+            >
+              {label}
+            </Link>
+          ))}
+          <button onClick={handleLogout} style={{
+            padding:"7px 16px", borderRadius:8,
+            border:"1px solid rgba(255,255,255,0.3)",
+            background:"transparent", color:"rgba(255,255,255,0.85)",
+            fontSize:13, fontWeight:500, cursor:"pointer",
+            fontFamily:"inherit", transition:"background 0.15s, border-color 0.15s",
+          }}
+            onMouseEnter={e => { e.currentTarget.style.background="rgba(255,255,255,0.12)"; e.currentTarget.style.borderColor="rgba(255,255,255,0.6)"; }}
+            onMouseLeave={e => { e.currentTarget.style.background="transparent"; e.currentTarget.style.borderColor="rgba(255,255,255,0.3)"; }}
+          >
+            로그아웃
+          </button>
+        </div>
+      </nav>
+    </header>
+  );
+};
+
+/* ── 면접 세션 카드 (검정 배경) ── */
+const SessionCard = ({ title, date, mentor, type, time, onEnter }) => (
+  <div style={{
+    background:"#111111",
+    borderRadius:12,
+    padding:"16px 20px",
+    display:"flex", alignItems:"center",
+    justifyContent:"space-between",
+    gap:16,
+    transition:"transform 0.2s",
+  }}
+    onMouseEnter={e => e.currentTarget.style.transform="translateY(-1px)"}
+    onMouseLeave={e => e.currentTarget.style.transform="translateY(0)"}
+  >
+    <div style={{ flex:1, minWidth:0 }}>
+      <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:6 }}>
+        <span style={{
+          background:"#333", color:"#ccc",
+          fontSize:9, fontWeight:700, letterSpacing:"0.08em",
+          padding:"2px 6px", borderRadius:3,
+        }}>
+          0:1
+        </span>
+      </div>
+      <p style={{ fontSize:15, fontWeight:700, color:C.white, marginBottom:5 }}>{title}</p>
+      <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+        <span style={{ fontSize:11, color:"rgba(255,255,255,0.45)", display:"flex", alignItems:"center", gap:4 }}>
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+            <circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" strokeWidth="1.2"/>
+            <path d="M5.5 3v2.5l1.5 1" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+          </svg>
+          {date}
+        </span>
+        <span style={{ fontSize:11, color:"rgba(255,255,255,0.45)", display:"flex", alignItems:"center", gap:4 }}>
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+            <circle cx="5.5" cy="5.5" r="4" stroke="currentColor" strokeWidth="1.2"/>
+            <circle cx="5.5" cy="5.5" r="1.5" fill="currentColor"/>
+          </svg>
+          {mentor} · {type}
+        </span>
+      </div>
+    </div>
+    <div style={{ display:"flex", alignItems:"center", gap:16, flexShrink:0 }}>
+      <div>
+        <span style={{ fontSize:28, fontWeight:700, color:C.white, letterSpacing:"-0.03em" }}>{time}</span>
+        <span style={{ fontSize:10, color:"rgba(255,255,255,0.4)", marginLeft:3 }}>KST</span>
+      </div>
+      <button
+        onClick={onEnter}
+        style={{
+          background:"transparent", color:C.white,
+          border:`1px solid rgba(255,255,255,0.4)`,
+          borderRadius:6, padding:"8px 16px",
+          fontSize:12, fontWeight:600, cursor:"pointer",
+          fontFamily:"inherit",
+          transition:"background 0.18s, border-color 0.18s",
+        }}
+        onMouseEnter={e => { e.currentTarget.style.background="rgba(255,255,255,0.1)"; e.currentTarget.style.borderColor="rgba(255,255,255,0.8)"; }}
+        onMouseLeave={e => { e.currentTarget.style.background="transparent"; e.currentTarget.style.borderColor="rgba(255,255,255,0.4)"; }}
+      >
+        입장하기
+      </button>
+    </div>
+  </div>
+);
+
+/* ── 카드 컨테이너 ── */
+const DashCard = ({ title, sub, children, style }) => (
+  <div style={{
+    background: C.white,
+    borderRadius:16,
+    padding:"24px 24px 28px",
+    border:`1px solid ${C.border}`,
+    ...style,
+  }}>
+    <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", marginBottom:20 }}>
+      <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+        <SectionIcon/>
+        <div>
+          <h2 style={{ fontSize:18, fontWeight:700, color:C.text, letterSpacing:"-0.02em" }}>{title}</h2>
+          {sub && <p style={{ fontSize:12, color:C.textMuted, marginTop:2 }}>{sub}</p>}
+        </div>
+      </div>
+      <QuoteIcon/>
+    </div>
+    {children}
+  </div>
+);
+
+/* ── 수락 대기 요청 카드 ── */
+const RequestCard = ({ name, company, message, avatarColor, onAccept, onDecline }) => (
+  <div style={{
+    background:C.bg,
+    borderRadius:12, padding:"16px 18px",
+    marginBottom:12,
+    border:`1px solid ${C.border}`,
+  }}>
+    <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:12 }}>
+      <div style={{
+        width:36, height:36, borderRadius:"50%", flexShrink:0,
+        background: avatarColor,
+        display:"flex", alignItems:"center", justifyContent:"center",
+      }}>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="5.5" r="2.5" stroke="rgba(255,255,255,0.8)" strokeWidth="1.3"/>
+          <path d="M2.5 13.5c0-3.038 2.462-5.5 5.5-5.5s5.5 2.462 5.5 5.5" stroke="rgba(255,255,255,0.8)" strokeWidth="1.3" strokeLinecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <p style={{ fontSize:14, fontWeight:700, color:C.text }}>{name}</p>
+        <p style={{ fontSize:12, color:C.textMuted }}>{company}</p>
+      </div>
+    </div>
+    <p style={{ fontSize:13, color:C.textSub, lineHeight:1.75, marginBottom:14 }}>{message}</p>
+    <div style={{ display:"flex", gap:8 }}>
+      <button onClick={onAccept} style={{
+        flex:1, padding:"8px",
+        background:C.navy, color:C.white,
+        border:"none", borderRadius:8,
+        fontSize:12, fontWeight:600, cursor:"pointer",
+        fontFamily:"inherit", transition:"background 0.18s",
+      }}
+        onMouseEnter={e => e.currentTarget.style.background=C.navyMid}
+        onMouseLeave={e => e.currentTarget.style.background=C.navy}
+      >
+        수락
+      </button>
+      <button onClick={onDecline} style={{
+        flex:1, padding:"8px",
+        background:"transparent", color:C.textSub,
+        border:`1px solid ${C.border}`, borderRadius:8,
+        fontSize:12, fontWeight:500, cursor:"pointer",
+        fontFamily:"inherit", transition:"border-color 0.18s",
+      }}
+        onMouseEnter={e => e.currentTarget.style.borderColor=C.text}
+        onMouseLeave={e => e.currentTarget.style.borderColor=C.border}
+      >
+        거절
+      </button>
+    </div>
+  </div>
+);
+
+/* ── 다가오는 세션 아이템 ── */
+const UpcomingItem = ({ date, time, title, mentor, type, status }) => {
+  const dotColor = status === "confirmed" ? C.teal : status === "pending" ? "#F59E0B" : C.border;
+  return (
+    <div style={{
+      display:"flex", gap:16, alignItems:"flex-start",
+      padding:"12px 0",
+      borderBottom:`1px solid ${C.border}`,
+    }}>
+      <div style={{ flexShrink:0, width:72, textAlign:"right" }}>
+        <p style={{ fontSize:12, color:C.textMuted }}>{date}</p>
+        <p style={{ fontSize:12, color:C.textMuted }}>{time}</p>
+      </div>
+      <div style={{ display:"flex", alignItems:"flex-start", gap:10, flex:1 }}>
+        <div style={{
+          width:8, height:8, borderRadius:"50%",
+          background:dotColor, flexShrink:0, marginTop:4,
+        }}/>
+        <div>
+          <p style={{ fontSize:14, fontWeight:600, color:C.text, marginBottom:2 }}>{title}</p>
+          <p style={{ fontSize:12, color:C.textMuted }}>{mentor} · {type}</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ════════════════════════════════════════
+   메인 컴포넌트
+════════════════════════════════════════ */
+export default function MentorDashboard() {
+  const navigate = useNavigate();
+
+  /* 더미 데이터 */
+  const userName = "박지훈";
+
+  const sessions = [
+    { id:1, title:"백엔드 개발자 모의 면접", date:"2026.04.02 오후 7:00", mentor:"멘토 박지훈", type:"1:1 세션", time:"19:00" },
+    { id:2, title:"백엔드 개발자 모의 면접", date:"2026.04.02 오후 7:00", mentor:"멘토 박지훈", type:"1:1 세션", time:"19:00" },
+  ];
+
+  const [requests, setRequests] = useState([
+    { id:1, name:"김민준", company:"카카오 백엔드 개발자 지원", message:"안녕하세요. 카카오 공채를 준비 중인 취준생입니다. Java/Spring 기반 백엔드 면접에 특히 약점이 있어 선생님의 도움이 필요합니다.", avatarColor:"#1B4F7A" },
+    { id:2, name:"이수현", company:"네이버 프론트엔드 지원", message:"React와 성능 최적화 관련 기술 면접을 앞두고 있어 코칭을 요청드립니다. 잘 부탁드립니다!", avatarColor:"#0F6E56" },
+  ]);
+
+  const upcoming = [
+    { date:"04.02", time:"19:00", title:"백엔드 개발자 모의 면접", mentor:"박지훈 멘토", type:"1:1",    status:"confirmed" },
+    { date:"04.07", time:"20:00", title:"프론트엔드 그룹 면접 연습", mentor:"이수연 멘토", type:"그룹 3인", status:"pending"   },
+    { date:"04.12", time:"14:00", title:"PM 직군 인성 면접",        mentor:"최현아 멘토", type:"1:1",    status:"none"      },
+  ];
+
+  const handleAccept  = (id) => setRequests(r => r.filter(x => x.id !== id));
+  const handleDecline = (id) => setRequests(r => r.filter(x => x.id !== id));
+
+  return (
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Noto Sans KR', sans-serif; background: ${C.bg}; }
+        @media (max-width: 768px) {
+          .dash-bottom { grid-template-columns: 1fr !important; }
+          .dash-header-nav { gap: 16px !important; font-size: 13px !important; }
+        }
+      `}</style>
+
+      <Header userName={userName}/>
+
+      <main style={{ maxWidth:1100, margin:"0 auto", padding:"36px 5% 60px" }}>
+
+        {/* ── 예정된 일정 ── */}
+        <DashCard
+          title="예정된 일정"
+          sub="Lepidopterist at Butterflai"
+          style={{ marginBottom:28 }}
+        >
+          <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
+            {sessions.map(s => (
+              <SessionCard
+                key={s.id}
+                title={s.title}
+                date={s.date}
+                mentor={s.mentor}
+                type={s.type}
+                time={s.time}
+                onEnter={() => navigate(`/interview/ready-mentor/${s.id}`)}
+              />
+            ))}
+            {sessions.length === 0 && (
+              <div style={{ textAlign:"center", padding:"32px 0", color:C.textMuted, fontSize:14 }}>
+                예정된 면접 일정이 없습니다.
+              </div>
+            )}
+          </div>
+        </DashCard>
+
+        {/* ── 하단 2열 ── */}
+        <div className="dash-bottom" style={{
+          display:"grid", gridTemplateColumns:"1fr 1fr", gap:24,
+        }}>
+
+          {/* 수락 대기 중인 요청 */}
+          <DashCard title="수락 대기 중인 요청" sub="Lepidopterist at Butterflai">
+            {requests.length > 0 ? (
+              requests.map(r => (
+                <RequestCard
+                  key={r.id}
+                  name={r.name}
+                  company={r.company}
+                  message={r.message}
+                  avatarColor={r.avatarColor}
+                  onAccept={()  => handleAccept(r.id)}
+                  onDecline={() => handleDecline(r.id)}
+                />
+              ))
+            ) : (
+              <div style={{ textAlign:"center", padding:"40px 0", color:C.textMuted, fontSize:14 }}>
+                대기 중인 요청이 없습니다.
+              </div>
+            )}
+          </DashCard>
+
+          {/* 다가오는 면접 세션 */}
+          <DashCard title="다가오는 면접 세션" sub="Lepidopterist at Butterflai">
+            <div>
+              {upcoming.map((u, i) => (
+                <UpcomingItem key={i} {...u}/>
+              ))}
+            </div>
+
+            {/* 범례 */}
+            <div style={{
+              display:"flex", gap:16, marginTop:16,
+              flexWrap:"wrap",
+            }}>
+              {[
+                { color:C.teal,   label:"확정" },
+                { color:"#F59E0B", label:"대기 중" },
+                { color:C.border, label:"미확정" },
+              ].map((leg, i) => (
+                <div key={i} style={{ display:"flex", alignItems:"center", gap:6 }}>
+                  <div style={{ width:7, height:7, borderRadius:"50%", background:leg.color }}/>
+                  <span style={{ fontSize:11, color:C.textMuted }}>{leg.label}</span>
+                </div>
+              ))}
+            </div>
+          </DashCard>
+
+        </div>
+      </main>
+    </>
+  );
+}
