@@ -39,4 +39,8 @@ public class MentorAvailability extends BaseEntity {
     public void book() {
         this.isBooked = true;
     }
+
+    public void unbook() {
+        this.isBooked = false;
+    }
 }
